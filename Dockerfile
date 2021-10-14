@@ -1,7 +1,7 @@
 FROM python:3.9-slim-buster
 
 # Créer le répertoire + ce déplacer dans le répertoire
-# mkdip /app && cd /app
+# mkdir -p /app && cd /app
 WORKDIR /app
 
 # Configurer des variables d'environnement
