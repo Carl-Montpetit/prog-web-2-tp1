@@ -23,19 +23,19 @@ class Database:
             self.connection.close()
             self.connection = None
 
-    def get_individual_by_lastname(self):
+    def get_article_by_date(self):
         connection = self.get_connection()
         cursor = connection.cursor()
 
-        cursor.execute("SELECT * FROM individual ORDER BY lastname ASC")
-        return self.to_dict("individual", cursor)
+        cursor.execute("SELECT * FROM article ORDER BY date_publication DESC")
+        return self.to_dict("article", cursor)
 
-    def insert_individual(self, individual):
+    def insert_article(self, article):
         connection = self.get_connection()
         cursor = connection.cursor()
 
-        cursor.execute("INSERT INTO individual(lastname, firstname, age) values (?, ?, ?)", [
-                       individual['lastname'], individual['firstname'], individual['age']])
+        cursor.execute("INSERT INTO article (id, titre, identifiant, auteur, date_publication, paragraphe) values (?, ?, ?, ?, ?)", [
+                       article['id_article'], article['titre'], article['identifiant'], article['date'], article['paragraphe']])
         connection.commit()
         return 1
 # TODO

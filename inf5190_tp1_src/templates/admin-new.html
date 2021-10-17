@@ -1,90 +1,143 @@
 {% extends "default.html" %} {% block content %}
-<!-- TODO : form to create new article -->
-<div id="body-home">
-  <div class="row justify-content-center mt-5 mb-3">
-    <h1
-      class="
-        container
-        w-25
-        display-3
-        text-light
-        border border-dark
-        bg-info
-        text-center
-        rounded-pill
-        m-3
-        p-2
-        font-weight-bolder
-      "
-    >
-      Bienvenue!
+<div id="body-admin-new">
+  <br />
+  <div class="row justify-content-center p-1">
+    <h1 class="display-3 text-light border border-dark bg-primary text-center rounded-pill w-auto h-auto m-2 p-2 font-weight-bolder">
+      Création d'un nouvel article
     </h1>
   </div>
-
-  <div class="row justify-content-center mb-3">
-    <h2 class="container w-25 text-light border border-dark bg-primary text-center rounded m-3 p-2">
-      Voici les cinq derniers articles publiés à ce jour!
-    </h2>
-  </div>
-
-  <div id="content" class="container">
-    <div class="row w-100 justify-content-center">
-      <div class="row justify-content-center m-auto p-2 w-auto h-auto text-center">
-        <div class="col-sm-11 align-items-center">
-          <div id="articles" class="container list-group-item clearfix m-2 border border-dark justify-content-center">
-            <div class="col text-center justify-content-center">
-              <h2 class="list-group-item-heading text-primary border border-dark w-25 text-center rounded m-auto">
-                Titre
-              </h2>
-              <div class="row">
-                <h4 class="font-weight-bolder text-danger mt-3 p-2">Identifiant :</h4>
-                <span
-                  class="list-group-item-text border border-dark rounded-pill p-2 font-weight-bold m-auto"
-                >
-                  Identifiant
-                </span>
-                <h4 class="font-weight-bolder text-danger mt-3 p-2">Auteur :</h4>
-                <span
-                  class="list-group-item-text border border-dark rounded-pill p-2 text-left font-weight-bold m-auto"
-                >
-                  Nom auteur
-                </span>
-              </div>
-              <h5 class="font-weight-bold text-dark mt-3 p-2">
-                Date de publication :
-                <a class="btn-link">date</a>
-              </h5>
-              <h4 class="font-weight-bolder text-danger mt-1 p-2">Article :</h4>
-              <p class="list-group-item-text border border-dark rounded-pill p-3 text-left font-weight-bold m-auto">
-                Paragraphe
-              </p>
-            </div>
-            <div class="row">
-              <div class="col-12 p-2">
-                <button
-                  class="btn btn-info border border-dark text-light font-weight-bolder text-center m-2 p-2 w-auto"
-                >
-                  Voir la page de l'article
-                </button>
-                <button
-                  class="btn btn-warning border border-dark text-dark font-weight-bolder text-center m-2 p-2 w-auto"
-                >
-                  Modifier l'article
-                </button>
-                <button class="btn btn-danger border border-dark text-light font-weight-bolder text-center m-2 p-2 w">
-                  Supprimer l'article
-                </button>
-              </div>
-            </div>
+  {%if error%}
+   <div class="container display-4 alert-danger border border-dark rounded text-center w-auto h-auto">{{error}}</div>
+   {%endif%}
+  <div class="row w-auto h-auto m-xlg-4 p-xl-4 justify-content-center">
+    <div id="article-create" class="col-2 w-auto h-auto m-4 px-lg-4 text-center">
+      <p
+        id="article"
+        class="
+          display-4
+          col-md-12
+          mx-auto
+          mt-4
+          bg-dark
+          border
+          text-light
+          font-weight-bolder
+          border-dark
+          rounded-pill
+          w-75
+          h-auto
+          p-2
+          row
+          justify-content-center
+        "
+      >
+        Article 📰
+      </p>
+        <form id="article-form" class="form-group m-2 p-2 w-auto h-auto m-auto" method="post" action="/admin-nouveau" enctype="multipart/form-data" class="form-group">
+          <label class="font-weight-bold text-center\" for="id-article">ID :</label>
+          <input
+            type="number"
+            id="id-article"
+            class="col-md-12 form-control m-auto w-auto border border-dark"
+            name="id-article"
+            placeholder="Entrez le ID de l'article"
+            required
+          />
+          {%if error%}
+          <div class="alert-danger small text-center rounded-pill mt-1">
+            ⚠️Svp, veuillez entrer un <strong>ID</strong> <u>valide</u>!..
           </div>
-        </div>
-        <div class="">
-          <button class="btn btn-success border border-dark text-light font-weight-bolder text-center m-2 p-3">
-            ➕Créer un nouvel article
-          </button>
-        </div>
+          {%endif%}
+          <label class="font-weight-bold text-center" for="titre">Titre :</label>
+          <input
+            type="text"
+            id="titre"
+            class="col-md-12 m-auto form-control w-auto border border-dark"
+            name="titre"
+            placeholder="Entrez le titre de l'article"
+            required
+          />
+          {%if error%}
+          <div class="alert-danger small text-center rounded-pill mt-1">
+            ⚠️Svp, veuillez entrer un <strong>titre</strong> <u>valide</u>!..
+          </div>
+          {%endif%}
+          <label class="font-weight-bold text-center" for="titre">Identifiant :</label>
+          <input
+            type="text"
+            id="identifiant"
+            class="col-md-12 m-auto form-control w-auto border border-dark"
+            name="identifiant"
+            placeholder="Entrez l'identifiant"
+            required
+          />
+          {%if error%}
+          <div class="alert-danger small text-center rounded-pill mt-1">
+            ⚠️Svp, veuillez entrer un <strong>identifiant</strong> <u>valide</u>!..
+          </div>
+          {%endif%}
+          <label class="font-weight-bold text-center" for="titre">Auteur :</label>
+          <input
+            type="text"
+            id="auteur"
+            class="col-md-12 m-auto form-control w-auto border border-dark"
+            name="auteur"
+            placeholder="Entrez le nom de l'auteur"
+            required
+          />
+          {%if error%}
+          <div class="alert-danger small text-center rounded-pill mt-1">
+            ⚠️Svp, veuillez entrer un nom d'<strong>auteur</strong> <u>valide</u>!..
+          </div>
+          {%endif%}
+          <label class="font-weight-bold text-center" for="titre"> Date de publication :</label>
+          <input
+            type="date"
+            id="date"
+            class="col-md-12 m-auto form-control w-auto border border-dark"
+            name="date"
+            placeholder="Entrez la date de publication"
+            required
+          />
+          {%if error%}
+          <div class="alert-danger small text-center rounded-pill mt-1">
+            ⚠️Svp, veuillez entrer une <strong>date</strong> de publication <u>valide</u>!..
+          </div>
+          {%endif%}
+            <label class="font-weight-bold text-center" for="paragraphe">Paragraphe :</label>
+            <textarea
+              rows="3"
+              cols="40"
+              id="paragraphe"
+              class="col-md-12 m-auto form-control w-auto border border-dark shadow"
+              name="paragraphe"
+              form="article-form"
+              placeholder="Entrez le paragraphe de l'article ici"
+              required
+            ></textarea>
+            {%if error%}
+            <div class="alert-danger small text-center rounded-pill mt-1">
+              ⚠️Svp, veuillez entrer un <strong>paragraphe</strong> pour l'article <u>valide</u>!..
+            </div> 
+            {%endif%}
+          <input
+            class="col-md-12 mx-1 form-control btn btn-success border border-dark w-auto text-light mt-3 mr-2"
+            type="submit"
+            id="submit-article"
+            name="submit-article"
+            value="Créer"
+          />
+          <input
+            class="col-md-12 mx-1 form-control btn btn-danger border border-dark w-auto text-light mt-3 ml-2"
+            type="reset"
+            id="reset-article"
+            name="reset-article"
+            value="Réinitialiser"
+          />
+          </div>
+        </form>
       </div>
     </div>
   </div>
+  {% endblock content %}
 </div>
-{% endblock content %}
