@@ -71,13 +71,21 @@
   object-fit: contain;
 }
 
-#paragraphe {
+#paragraphe-home {
   align-items: center;
   word-wrap: break-word;
   overflow-wrap: break-word;
   max-width: 400px;
   max-height: auto;
   font-size:large;
+}
+
+#paragraphe-new {
+  align-items: center;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 400px;
+  max-height: auto;
 }
 
 .list-group-item-heading {

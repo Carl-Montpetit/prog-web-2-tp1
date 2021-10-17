@@ -1,15 +1,19 @@
-from database import Database
+from database.Database import Database
 from flask import Flask, render_template, request, redirect, url_for, g, flash
 from datetime import datetime
+import re
 
 # Initialize flask application
 app = Flask(__name__, static_folder="static",
             template_folder="templates", static_url_path="")
 app.secret_key = "Carl.M"
 
+# DATETIME UTILS
+today = datetime.now().strftime("%Y-%m-%d")
+
 
 def get_db():
-    """[Get the database data in a variable]
+    """[Get the database in a variable]
 
     Returns:
         [Any]: [the database]
@@ -18,6 +22,13 @@ def get_db():
     if db is None:
         g._database = Database()
     return g._database
+
+
+def add_article_in_db(today):
+    news = ['enfer', 'hell is hot', 'Satan', today, 'On a jamais vu ca']
+    get_admin().insert_article(news)
+    return 1
+
 
 @app.teardown_appcontext
 def close_connection(exception):
@@ -44,14 +55,6 @@ def page_not_found(error):
     return render_template("404.html"), 404
 
 
-# DATETIME UTILS
-today = datetime.now().strftime("%Y-%m-%d")
-
-# Server perspective :
-# POST  ⟹ used to receive data (from clients)
-# GET   ⟹ used to send data to clients
-
-
 # GET ⟹ Default route ⟹ /
 # TODO : Need a search field for LIKE DB
 @app.route('/', methods=['GET'])
@@ -61,7 +64,8 @@ def get_last_five_articles():
     Returns:
         [Text]: [home.html]
     """
-    return render_template('home.html')
+    articles = get_db().get_all_articles()
+    return render_template('home.html', articles=articles)
 
 
 @app.route('/article/<string:identifiant>', methods=['GET'])
@@ -85,26 +89,43 @@ def get_admin_new():
 
 
 @app.route('/admin-nouveau', methods=['POST'])
-def create_new_article():
+def add_new_article_in_bd(today=today):
     """[Page with form for creating a new article]
 
     Returns:
         [Text]: [redirect ⟹ '/' or home.html]
     """
-    id_article = request.form['id-article']
+    pattern_date = '^\d{4} -\d{2} -\d{2}$'
+    id_article = request.form['id_article']
     titre = request.form['titre']
     identifiant = request.form['identifiant']
     auteur = request.form['auteur']
     date = request.form['date']
+    date_validate = re.match(pattern_date, date)
     paragraphe = request.form['paragraphe']
+    article = [id_article, titre, identifiant, auteur, today, paragraphe]
 
-    # if there's error the page show error messages to the user
+    # if there's error(s) the page show error message(s) to the user
     if id_article == "" or titre == "" or identifiant == "" or auteur == "" or date == "" or paragraphe == "":
-        return render_template('admin-new.html', error='⚠️Les champs doivent impérativement être remplis!..')
-
+        return render_template('admin-new.html', error='⚠️Tous les champs doivent impérativement être remplis!..', id_article=id_article, titre=titre, identifiant=identifiant, auteur=auteur, date=date, paragraphe=paragraphe)
+    elif type(id_article) is not int:
+        return render_template('admin-new.html', error='⚠️Le champs ID doit impérativement être un nombre!..')
+    elif len(titre) < 3 or len(titre) > 100:
+        return render_template('admin-new.html', error='⚠️Le champs Titre doit impérativement contenir entre 3 et 100 caractères!..')
+    elif len(identifiant) < 3 or len(identifiant) > 50:
+        return render_template('admin-new.html', error='⚠️Le champs Identifiant doit impérativement contenir entre 3 et 50 caractères!..')
+    elif len(auteur) < 3 or len(auteur) > 100:
+        return render_template('admin-new.html', error='⚠️Le champs Auteur doit impérativement contenir entre 4 et 100 caractères!..')
+    elif date_validate is None:
+        return render_template('admin-new.html', error='⚠️Le champs Date doit impérativement être de la forme ⟹ (YYYY-mm-jj)!..')
+    elif len(paragraphe) < 1 or len(auteur) > 500:
+        return render_template('admin-new.html', error='⚠️Le champs Auteur doit impérativement contenir entre 1 et 500 caractères!..')
     else:
+        # add the nuew article in the database + append it in the log file
+        get_db().insert_article(article)
         file = open('log.txt', 'a')
-        file.write(f"id\t\t\t\t⟹\t{id_article}\ntitre\t\t\t⟹\t{titre}\nidentifiant\t\t⟹\t{identifiant}\nauteur\t\t\t⟹\t{auteur}\ndate\t\t\t⟹\t{date}\nparagraphe\t\t⬇︎\n{paragraphe}\n================================================================================\n")
+        file.write(
+            f"id_article\t\t\t⟹\t{id_article}\ntitre\t\t\t⟹\t{titre}\nidentifiant\t\t⟹\t{identifiant}\nauteur\t\t\t⟹\t{auteur}\ndate\t\t\t⟹\t{today}\nparagraphe\t\t⬇︎\n{paragraphe}\n================================================================================\n")
         return render_template('home.html', id_article=id_article, titre=titre, identifiant=identifiant, auteur=auteur, date=date, paragraphe=paragraphe)
 
 

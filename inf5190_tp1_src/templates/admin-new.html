@@ -2,15 +2,15 @@
 <div id="body-admin-new">
   <br />
   <div class="row justify-content-center p-1">
-    <h1 class="display-3 text-light border border-dark bg-primary text-center rounded-pill w-auto h-auto m-2 p-2 font-weight-bolder">
+    <h1 class="display-3 text-light border border-dark bg-primary text-center rounded-pill w-auto h-auto my-4 p-2 font-weight-bolder">
       Création d'un nouvel article
     </h1>
   </div>
   {%if error%}
    <div class="container display-4 alert-danger border border-dark rounded text-center w-auto h-auto">{{error}}</div>
    {%endif%}
-  <div class="row w-auto h-auto m-xlg-4 p-xl-4 justify-content-center">
-    <div id="article-create" class="col-2 w-auto h-auto m-4 px-lg-4 text-center">
+  <div class="row w-auto h-auto mt-lg-4 p-1 justify-content-center">
+    <div id="article-create" class="col-3 w-auto h-auto mt-4 px-lg-2 text-center">
       <p
         id="article"
         class="
@@ -35,11 +35,12 @@
       </p>
         <form id="article-form" class="form-group m-2 p-2 w-auto h-auto m-auto" method="post" action="/admin-nouveau" enctype="multipart/form-data" class="form-group">
           <label class="font-weight-bold text-center\" for="id-article">ID :</label>
-          <input
+          <input    
+            value= ""
             type="number"
-            id="id-article"
+            id="id_article"
             class="col-md-12 form-control m-auto w-auto border border-dark"
-            name="id-article"
+            name="id_article"
             placeholder="Entrez le ID de l'article"
             required
           />
@@ -105,8 +106,9 @@
           </div>
           {%endif%}
             <label class="font-weight-bold text-center" for="paragraphe">Paragraphe :</label>
-            <textarea
-              rows="3"
+            <textarea 
+              maxlength="500"
+              rows="4"
               cols="40"
               id="paragraphe"
               class="col-md-12 m-auto form-control w-auto border border-dark shadow"
