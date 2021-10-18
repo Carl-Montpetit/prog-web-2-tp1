@@ -46,13 +46,22 @@ class Database:
                        article[0], article[1], article[2], article[3], article[4], article[5]])
         connection.commit()
         return 1
-    
-    def get_article_id(self, titre):
+
+    def get_article_id_by_titre(self, titre):
         connection = self.get_connection()
         cursor = connection.cursor()
-        
+
         cursor.execute("SELECT id FROM article WHERE titre = ?", (titre,))
         return self.to_dict("article", cursor)
+
+    def get_article_by_identifiant(self, identifiant):
+        connection = self.get_connection()
+        cursor = connection.cursor()
+
+        cursor.execute(
+            "SELECT * FROM article WHERE identifiant = ?", (identifiant,))
+        return self.to_dict("article", cursor)
+
 # TODO
     # methode qui permet d'effectuer une recherche dans la bd pour recuperer les
     # 5 derniers articles en date du jour

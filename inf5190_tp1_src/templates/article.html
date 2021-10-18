@@ -22,7 +22,7 @@
 
   <div class="row justify-content-center mb-3">
     <h2 class="container w-25 text-light border border-dark bg-primary text-center rounded m-3 p-2">
-      Voici les cinq derniers articles publiés à ce jour!
+      Voici l'article du lien {{article}}!
     </h2>
   </div>
 
@@ -33,23 +33,23 @@
           <div id="articles" class="container list-group-item clearfix m-2 border border-dark justify-content-center">
             <div class="col text-center justify-content-center">
               <h2 class="list-group-item-heading text-primary border border-dark w-25 text-center rounded m-auto">
-                Titre
+                {{titre}}
               </h2>
               <h4 class="font-weight-bolder text-danger mt-3 p-2">Identifiant :</h4>
               <span class="list-group-item-text border border-dark rounded-pill p-2 font-weight-bold m-auto">
-                Identifiant
+                {{identifiant}}
               </span>
               <h4 class="font-weight-bolder text-danger mt-3 p-2">Auteur :</h4>
               <span class="list-group-item-text border border-dark rounded-pill p-2 text-left font-weight-bold m-auto">
-                Nom auteur
+                {{auteur}}
               </span>
               <h5 class="font-weight-bold text-dark mt-3 p-2">
                 Date de publication :
-                <a class="btn-link">date</a>
+                <a class="btn-link">{{date}}</a>
               </h5>
               <h4 class="font-weight-bolder text-danger mt-1 p-2">Article :</h4>
               <p class="list-group-item-text border border-dark rounded-pill p-3 text-left font-weight-bold m-auto">
-                Paragraphe
+                {{paragraphe}}
               </p>
             </div>
             <div class="row">

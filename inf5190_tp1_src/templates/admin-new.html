@@ -7,7 +7,7 @@
     </h1>
   </div>
   {%if error%}
-   <div class="container display-4 alert-danger border border-dark rounded text-center w-auto h-auto">{{error}}</div>
+   <div class="container alert-danger border border-dark rounded text-center w-25 h-auto">{{error}}</div>
    {%endif%}
   <div class="row w-auto h-auto mt-lg-4 p-1 justify-content-center">
     <div id="article-create" class="col-3 w-auto h-auto mt-4 px-lg-2 text-center">
@@ -36,7 +36,6 @@
         <form id="article-form" class="form-group m-2 p-2 w-auto h-auto m-auto" method="post" action="/admin-nouveau" enctype="multipart/form-data" class="form-group">
           <label class="font-weight-bold text-center\" for="id-article">ID :</label>
           <input    
-            value= ""
             type="number"
             id="id_article"
             class="col-md-12 form-control m-auto w-auto border border-dark"
@@ -45,7 +44,7 @@
             required
           />
           {%if error%}
-          <div class="alert-danger small text-center rounded-pill mt-1">
+          <div class="container alert-danger small text-center rounded-pill mt-1 w-50">
             ⚠️Svp, veuillez entrer un <strong>ID</strong> <u>valide</u>!..
           </div>
           {%endif%}
@@ -58,8 +57,8 @@
             placeholder="Entrez le titre de l'article"
             required
           />
-          {%if error%}
-          <div class="alert-danger small text-center rounded-pill mt-1">
+          {%if error and err_titre%}
+          <div class="container alert-danger small text-center rounded-pill mt-1 w-50">
             ⚠️Svp, veuillez entrer un <strong>titre</strong> <u>valide</u>!..
           </div>
           {%endif%}
@@ -73,7 +72,7 @@
             required
           />
           {%if error%}
-          <div class="alert-danger small text-center rounded-pill mt-1">
+          <div class="container alert-danger small text-center rounded-pill mt-1 w-50">
             ⚠️Svp, veuillez entrer un <strong>identifiant</strong> <u>valide</u>!..
           </div>
           {%endif%}
@@ -87,7 +86,7 @@
             required
           />
           {%if error%}
-          <div class="alert-danger small text-center rounded-pill mt-1">
+          <div class="container alert-danger small text-center rounded-pill mt-1 w-50">
             ⚠️Svp, veuillez entrer un nom d'<strong>auteur</strong> <u>valide</u>!..
           </div>
           {%endif%}
@@ -101,7 +100,7 @@
             required
           />
           {%if error%}
-          <div class="alert-danger small text-center rounded-pill mt-1">
+          <div class="container alert-danger small text-center rounded-pill mt-1 w-50">
             ⚠️Svp, veuillez entrer une <strong>date</strong> de publication <u>valide</u>!..
           </div>
           {%endif%}
@@ -118,7 +117,7 @@
               required
             ></textarea>
             {%if error%}
-            <div class="alert-danger small text-center rounded-pill mt-1">
+            <div class="container alert-danger small text-center rounded-pill mt-1 w-50">
               ⚠️Svp, veuillez entrer un <strong>paragraphe</strong> pour l'article <u>valide</u>!..
             </div> 
             {%endif%}
