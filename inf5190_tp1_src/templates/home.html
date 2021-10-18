@@ -1,32 +1,23 @@
 {% extends "default.html" %} {% block content %}
-<!-- TODO : ADD SEARCH BAR -->
 <div id="body-home">
   <div class="row justify-content-center mt-5 mb-3">
-    <h1
-      class="
-        container
-        w-25
-        display-2
-        text-light
-        border border-dark
-        bg-info
-        text-center
-        rounded-pill
-        m-3
-        p-2
-        font-weight-bolder
-      "
-    >
+    <div id="welcome" class="container display-2 text-dark border border-dark text-center rounded-pill m-1 p-1">
       Bienvenue!
-    </h1>
+    </div>
   </div>
 
-  <div class="row justify-content-center mb-3">
-    <h2 class="container bg-primary w-auto h-auto text-light border border-dark text-center rounded m-3 p-2">
+  <div class="row justify-content-center mt-4">
+    <h3 id="msg-welcome" class="container w-auto h-auto border border-dark text-center rounded mt-3 p-2">
       Voici les cinq derniers articles publiés à ce jour!
-    </h2>
+    </h3>
   </div>
-
+  {%if msg%}
+  <div class="row justify-content-center">
+    <h3 id="msg-created" class="container w-auto h-auto border border-dark text-center rounded mt-3 p-2">
+      {{msg}}
+    </h3>
+  </div>
+  {%endif%}
   <div id="search-bar" class="container">
     <form
       id="search-form"
@@ -36,8 +27,14 @@
       enctype="multipart/form-data"
       class="form-group"
     >
-    <span for="search" class=" font-weight-bold">Faire une recherche dans la base de données :</span>
-      <input id="search" name="search " type="text" placeholder="rechercher" class="form-control border border-dark rounded" />
+      <span for="search" class="font-weight-bold text-light bg-primary border border-dark rounded">Faire une recherche dans la base de données :</span>
+      <input
+        id="search"
+        name="search"
+        type="text"
+        placeholder="rechercher"
+        class="form-control border border-dark rounded text-dark"
+      />
     </form>
   </div>
 
@@ -97,7 +94,7 @@
               </h2>
               <h5 class="font-weight-bold text-dark mt-3 p-1">
                 <u>Date de publication</u> :
-                <span class="text-danger">{{date}}</span>
+                <span class="text-danger">{{date_publication}}</span>
               </h5>
               <h4 class="font-weight-bolder text-dark h-auto mt-0 p-1">Article :</h4>
               <div

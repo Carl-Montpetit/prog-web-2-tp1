@@ -3,7 +3,7 @@
   <br />
   <div class="row justify-content-center p-1">
     <h1 class="display-3 text-light border border-dark bg-primary text-center rounded-pill w-auto h-auto m-1 p-2 font-weight-bolder">
-      Création d'un nouvel article
+      Modification de l'article 👉 <u><strong>{{titre}}</strong></u>
     </h1>
   </div>
   <div class="row w-auto h-auto m-xlg-4 p-xl-4 justify-content-center">
@@ -28,84 +28,40 @@
           justify-content-center
         "
       >
-        Article 📰
+        {{titre}} 📰
       </p>
-        <form id="article-form" class="form-group m-2 p-2 w-auto h-auto m-auto" method="post" action="#">
-          <label class="font-weight-bold text-center\" for="id-article">ID :</label>
-          <input
-            type="password"
-            id="id-article"
-            class="col-md-12 form-control m-auto w-auto border border-dark"
-            name="id-article"
-            placeholder="Entrez le ID de l'article"
-            required
-          />
-          <div class="alert-danger small text-center rounded-pill mt-1">
-            ⚠️Svp, veuillez entrer un <strong>ID</strong> <u>valide</u>!..
-          </div>
-          <label class="font-weight-bold text-center" for="titre">Titre :</label>
+        <form id="article-form" class="form-group m-2 p-2 w-auto h-auto m-auto" method="post" action="/admin/{{identifiant}}">
+          <label class="font-weight-bold text-center" for="titre">Titre : Actuellement👇</label>
+          <div class="container bg-dark text-light w-auto border border-dark m-1"><p>{{titre}}</p></div>
           <input
             type="text"
             id="titre"
             class="col-md-12 m-auto form-control w-auto border border-dark"
             name="titre"
-            placeholder="Entrez le titre de l'article"
-            required
+            placeholder="Entrez le nouveau titre"
           />
+          {%if error and titre%}
           <div class="alert-danger small text-center rounded-pill mt-1">
             ⚠️Svp, veuillez entrer un <strong>titre</strong> <u>valide</u>!..
           </div>
-          <label class="font-weight-bold text-center" for="titre">Identifiant :</label>
-          <input
-            type="text"
-            id="identifiant"
-            class="col-md-12 m-auto form-control w-auto border border-dark"
-            name="identifiant"
-            placeholder="Entrez l'identifiant"
-            required
-          />
-          <div class="alert-danger small text-center rounded-pill mt-1">
-            ⚠️Svp, veuillez entrer un <strong>identifiant</strong> <u>valide</u>!..
-          </div>
-          <label class="font-weight-bold text-center" for="titre">Auteur :</label>
-          <input
-            type="text"
-            id="auteur"
-            class="col-md-12 m-auto form-control w-auto border border-dark"
-            name="auteur"
-            placeholder="Entrez le nom de l'auteur"
-            required
-          />
-          <div class="alert-danger small text-center rounded-pill mt-1">
-            ⚠️Svp, veuillez entrer un nom d'<strong>auteur</strong> <u>valide</u>!..
-          </div>
-          <label class="font-weight-bold text-center" for="titre"> Date de publication :</label>
-          <input
-            type="date"
-            id="date"
-            class="col-md-12 m-auto form-control w-auto border border-dark"
-            name="date"
-            placeholder="Entrez la date de publication"
-            required
-          />
-          <div class="alert-danger small text-center rounded-pill mt-1">
-            ⚠️Svp, veuillez entrer une <strong>date</strong> de publication <u>valide</u>!..
-          </div>
-            <label class="font-weight-bold text-center" for="paragraphe">Paragraphe :</label>
+          {%endif%}
+            <label class="font-weight-bold text-center" for="paragraphe">Paragraphe : Actuellement👇</label>
+            <div class="container bg-dark text-light w-auto border border-dark m-1"><p>{{paragraphe}}</p></div>
             <textarea
               rows="3"
               cols="40"
               id="paragraphe"
               class="col-md-12 m-auto form-control w-auto border border-dark shadow"
               name="paragraphe"
-              placeholder="Entrez le paragraphe de l'article ici"
-              required
+              placeholder="Entrez le nouveau paragraphe ici"
             ></textarea>
+            {%if error and paragraphe%}
             <div class="alert-danger small text-center rounded-pill mt-1">
               ⚠️Svp, veuillez entrer un <strong>paragraphe</strong> pour l'article <u>valide</u>!..
             </div> 
+            {%endif%}
           <input
-            class="col-md-12 mx-1 form-control btn btn-warning border border-dark w-auto text-light mt-3 mr-2"
+            class="col-md-12 mx-1 form-control btn btn-warning border border-dark w-auto text-dark mt-3 mr-2"
             type="submit"
             id="submit-article"
             name="submit-article"
@@ -118,10 +74,17 @@
             name="reset-article"
             value="Réinitialiser"
           />
+          <input
+            class="col-md-12 mx-1 form-control btn btn-dark border border-dark w-auto text-light mt-3 ml-2"
+            type="reset"
+            id="reset-article"
+            name="reset-article"
+            value="Canceller"
+          />
           </div>
         </form>
       </div>
     </div>
   </div>
-  {% endblock content %}
 </div>
+ {% endblock content %}

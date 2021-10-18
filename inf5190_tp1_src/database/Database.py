@@ -47,16 +47,19 @@ class Database:
         connection.commit()
         return 1
 
-    def get_article_id_by_titre(self, titre):
+    def modify_article(self, article):
         connection = self.get_connection()
         cursor = connection.cursor()
 
-        cursor.execute("SELECT id FROM article WHERE titre = ?", (titre,))
-        return self.to_dict("article", cursor)
+        cursor.execute("UPDATE article SET titre=(?), paragraphe=(?) WHERE identifiant=(?)", [
+                       article[0]['titre'], article[0]['paragraphe'], article[0]['identifiant']])
+        connection.commit()
+        return 1
+
 
     def get_article_by_identifiant(self, identifiant):
-        connection = self.get_connection()
-        cursor = connection.cursor()
+        connection= self.get_connection()
+        cursor= connection.cursor()
 
         cursor.execute(
             "SELECT * FROM article WHERE identifiant = ?", (identifiant,))

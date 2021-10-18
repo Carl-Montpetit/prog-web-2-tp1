@@ -65,14 +65,6 @@
         "documentation": {}
     },
     {
-        "label": "flash",
-        "importPath": "flask",
-        "description": "flask",
-        "isExtraImport": true,
-        "detail": "flask",
-        "documentation": {}
-    },
-    {
         "label": "datetime",
         "importPath": "datetime",
         "description": "datetime",
@@ -129,7 +121,7 @@
         "kind": 2,
         "importPath": "inf5190_tp1_src.app",
         "description": "inf5190_tp1_src.app",
-        "peekOfCode": "def close_connection(exception):\n    db = getattr(g, '_database', None)\n    if db is not None:\n        db.disconnect()\n@app.errorhandler(404)\n# [x]\ndef page_not_found(error):\n    return render_template(ERR_404_PAGE), 404\n# TODO : Need a search field for LIKE DB & show the last 5 articles\n@app.route('/', methods=['GET'])",
+        "peekOfCode": "def close_connection(exception):\n    db = getattr(g, '_database', None)\n    if db is not None:\n        db.disconnect()\n@app.errorhandler(404)\n# [x]\ndef page_not_found(error):\n    return render_template(ERR_404_PAGE), 404\n# TODO : show the last 5 articles\n@app.route('/', methods=['GET'])",
         "detail": "inf5190_tp1_src.app",
         "documentation": {}
     },
@@ -138,7 +130,7 @@
         "kind": 2,
         "importPath": "inf5190_tp1_src.app",
         "description": "inf5190_tp1_src.app",
-        "peekOfCode": "def page_not_found(error):\n    return render_template(ERR_404_PAGE), 404\n# TODO : Need a search field for LIKE DB & show the last 5 articles\n@app.route('/', methods=['GET'])\n# []\ndef get_last_five_articles():\n    articles = get_db().get_all_articles()\n    return render_template(HOME_PAGE, articles=articles)\n# @app.route('/', methods=['POST'])\n# # []",
+        "peekOfCode": "def page_not_found(error):\n    return render_template(ERR_404_PAGE), 404\n# TODO : show the last 5 articles\n@app.route('/', methods=['GET'])\n# []\ndef get_last_five_articles():\n    articles = get_db().get_all_articles()\n    return render_template(HOME_PAGE, articles=articles)\n# TODO search field for LIKE DB\n# @app.route('/', methods=['POST'])",
         "detail": "inf5190_tp1_src.app",
         "documentation": {}
     },
@@ -147,7 +139,7 @@
         "kind": 2,
         "importPath": "inf5190_tp1_src.app",
         "description": "inf5190_tp1_src.app",
-        "peekOfCode": "def get_last_five_articles():\n    articles = get_db().get_all_articles()\n    return render_template(HOME_PAGE, articles=articles)\n# @app.route('/', methods=['POST'])\n# # []\n# def search_articles():\n#     search = request.form['search']\n#     # TODO search result in database\n#     return render_template(SEARCH_RESULT_PAGE)\n@app.route('/article/<string:identifiant>', methods=['GET'])",
+        "peekOfCode": "def get_last_five_articles():\n    articles = get_db().get_all_articles()\n    return render_template(HOME_PAGE, articles=articles)\n# TODO search field for LIKE DB\n# @app.route('/', methods=['POST'])\n# # []\n# def search_articles():\n#     search = request.form['search']\n#     # TODO search result in database\n#     return render_template(SEARCH_RESULT_PAGE)",
         "detail": "inf5190_tp1_src.app",
         "documentation": {}
     },
@@ -156,7 +148,25 @@
         "kind": 2,
         "importPath": "inf5190_tp1_src.app",
         "description": "inf5190_tp1_src.app",
-        "peekOfCode": "def get_an_article(identifiant):\n    article = get_db().get_article_by_identifiant(identifiant)\n    return render_template(ARTICLE_PAGE, article=article)\n@app.route('/admin', methods=['GET'])\n# [x]\ndef get_admin():\n    return render_template(ADMIN_PAGE)\n@app.route('/admin-nouveau', methods=['GET'])\n# [x]\ndef get_admin_new():",
+        "peekOfCode": "def get_an_article(identifiant):\n    try:\n        article = get_db().get_article_by_identifiant(identifiant)\n        titre = article[0]['titre']\n        identifiant = article[0]['identifiant']\n        auteur = article[0]['auteur']\n        date_publication = article[0]['date_publication']\n        paragraphe = article[0]['paragraphe']\n    except Exception:\n        return render_template(ERR_404_PAGE), 404",
+        "detail": "inf5190_tp1_src.app",
+        "documentation": {}
+    },
+    {
+        "label": "get_an_article_modify",
+        "kind": 2,
+        "importPath": "inf5190_tp1_src.app",
+        "description": "inf5190_tp1_src.app",
+        "peekOfCode": "def get_an_article_modify(identifiant):\n    try:\n        article = get_db().get_article_by_identifiant(identifiant)\n        titre = article[0]['titre']\n        identifiant = article[0]['identifiant']\n        auteur = article[0]['auteur']\n        date_publication = article[0]['date_publication']\n        paragraphe = article[0]['paragraphe']\n    except Exception:\n        return render_template(ERR_404_PAGE), 404",
+        "detail": "inf5190_tp1_src.app",
+        "documentation": {}
+    },
+    {
+        "label": "modify_article",
+        "kind": 2,
+        "importPath": "inf5190_tp1_src.app",
+        "description": "inf5190_tp1_src.app",
+        "peekOfCode": "def modify_article(identifiant):\n    try:\n        article = get_db().get_article_by_identifiant(identifiant)\n    except Exception:\n        return render_template(ERR_404_PAGE), 404\n    get_db().modify_article(article)\n    return redirect(url_for('get_admin', msg=INFO_MSG_MODIFIED))\n@app.route('/admin', methods=['GET'])\n# [x]\ndef get_admin():",
         "detail": "inf5190_tp1_src.app",
         "documentation": {}
     },
@@ -165,7 +175,7 @@
         "kind": 2,
         "importPath": "inf5190_tp1_src.app",
         "description": "inf5190_tp1_src.app",
-        "peekOfCode": "def get_admin():\n    return render_template(ADMIN_PAGE)\n@app.route('/admin-nouveau', methods=['GET'])\n# [x]\ndef get_admin_new():\n    return render_template(ADMIN_NEW_ARTICLE_PAGE)\n@app.route('/admin-nouveau', methods=['POST'])\n# []\ndef add_new_article_in_bd():\n    \"\"\"[Page with form for creating a new article]",
+        "peekOfCode": "def get_admin():\n    articles = get_db().get_all_articles()\n    return render_template(ADMIN_PAGE, articles=articles)\n@app.route('/admin-nouveau', methods=['GET'])\n# [x]\ndef get_admin_new():\n    return render_template(ADMIN_NEW_ARTICLE_PAGE)\n@app.route('/admin-nouveau', methods=['POST'])\n# []\ndef add_new_article_in_bd():",
         "detail": "inf5190_tp1_src.app",
         "documentation": {}
     },
@@ -174,7 +184,7 @@
         "kind": 2,
         "importPath": "inf5190_tp1_src.app",
         "description": "inf5190_tp1_src.app",
-        "peekOfCode": "def get_admin_new():\n    return render_template(ADMIN_NEW_ARTICLE_PAGE)\n@app.route('/admin-nouveau', methods=['POST'])\n# []\ndef add_new_article_in_bd():\n    \"\"\"[Page with form for creating a new article]\n    Returns:\n        [Text]: [redirect ⟹ '/' or home.html]\n    \"\"\"\n    PATTERN_DATE = '^\\d{4}-\\d{2}-\\d{2}$'",
+        "peekOfCode": "def get_admin_new():\n    return render_template(ADMIN_NEW_ARTICLE_PAGE)\n@app.route('/admin-nouveau', methods=['POST'])\n# []\ndef add_new_article_in_bd():\n    titre = request.form['titre']\n    identifiant = request.form['identifiant']\n    auteur = request.form['auteur']\n    date_publication = request.form['date_publication']\n    date_validation = re.match(PATTERN_DATE, date_publication)",
         "detail": "inf5190_tp1_src.app",
         "documentation": {}
     },
@@ -183,7 +193,25 @@
         "kind": 2,
         "importPath": "inf5190_tp1_src.app",
         "description": "inf5190_tp1_src.app",
-        "peekOfCode": "def add_new_article_in_bd():\n    \"\"\"[Page with form for creating a new article]\n    Returns:\n        [Text]: [redirect ⟹ '/' or home.html]\n    \"\"\"\n    PATTERN_DATE = '^\\d{4}-\\d{2}-\\d{2}$'\n    titre = request.form['titre']\n    identifiant = request.form['identifiant']\n    auteur = request.form['auteur']\n    date = request.form['date']",
+        "peekOfCode": "def add_new_article_in_bd():\n    titre = request.form['titre']\n    identifiant = request.form['identifiant']\n    auteur = request.form['auteur']\n    date_publication = request.form['date_publication']\n    date_validation = re.match(PATTERN_DATE, date_publication)\n    paragraphe = request.form['paragraphe']\n    article = [titre, identifiant, auteur, date_publication, paragraphe]\n    # if there's error(s) the page show error message(s) to the user\n    # TODO not refresh the input fields AJAX ??",
+        "detail": "inf5190_tp1_src.app",
+        "documentation": {}
+    },
+    {
+        "label": "append_article_to_logfile",
+        "kind": 2,
+        "importPath": "inf5190_tp1_src.app",
+        "description": "inf5190_tp1_src.app",
+        "peekOfCode": "def append_article_to_logfile(titre, identifiant, auteur, date_publication, paragraphe):\n    file = open('log.txt', 'a')\n    file.write(\n        f\"titre\\t\\t\\t\\t⟹\\t{titre}\\nidentifiant\\t\\t\\t⟹\\t{identifiant}\\nauteur\\t\\t\\t\\t⟹\\t{auteur}\\ndate_publication\\t\\t⟹\\t{date_publication}\\nparagraphe\\t\\t⬇︎\\n{paragraphe}\\n================================================================================\\n\")\ndef append_modified_to_logfile(titre, paragraphe):\n    file = open('log.txt', 'a')\n    file.write(\n        f\"Modification :\\ntitre\\t\\t\\t\\t⟹\\t{titre}\\nparagraphe\\t\\t⬇︎\\n{paragraphe}\\date\\t\\t⟹\\t{today}\\n================================================================================\\n\")\n# This is always true if app.py is used as entry point of the interpretor\nif __name__ == '__main__':",
+        "detail": "inf5190_tp1_src.app",
+        "documentation": {}
+    },
+    {
+        "label": "append_modified_to_logfile",
+        "kind": 2,
+        "importPath": "inf5190_tp1_src.app",
+        "description": "inf5190_tp1_src.app",
+        "peekOfCode": "def append_modified_to_logfile(titre, paragraphe):\n    file = open('log.txt', 'a')\n    file.write(\n        f\"Modification :\\ntitre\\t\\t\\t\\t⟹\\t{titre}\\nparagraphe\\t\\t⬇︎\\n{paragraphe}\\date\\t\\t⟹\\t{today}\\n================================================================================\\n\")\n# This is always true if app.py is used as entry point of the interpretor\nif __name__ == '__main__':\n    app.run(port=5000)",
         "detail": "inf5190_tp1_src.app",
         "documentation": {}
     },
@@ -255,7 +283,7 @@
         "kind": 5,
         "importPath": "inf5190_tp1_src.app",
         "description": "inf5190_tp1_src.app",
-        "peekOfCode": "MODIFY_ARTICLE_PAGE = 'modify-article.html'\nSEARCH_RESULT_PAGE = 'search-result.html'\nERR_MSG_EMPTY_FIELDS = '⚠️Tous les champs doivent impérativement être remplis!..'\nERR_MSG_TITRE = '⚠️Le champs Titre doit impérativement contenir entre 3 et 100 caractères!..'\nERR_MSG_IDENTIFIANT = '⚠️Le champs Identifiant doit impérativement contenir entre 3 et 50 caractères!..'\nERR_MSG_AUTEUR = '⚠️Le champs Auteur doit impérativement contenir entre 4 et 100 caractères!..'\nERR_MSG_DATE = '⚠️Le champs Date doit impérativement être de la forme ⟹ (YYYY-mm-jj) avec des nombres!..'\nERR_MSG_PARAGRAPHE = '⚠️Le champs Auteur doit impérativement contenir entre 1 et 500 caractères!..'\nERR_MSG_ID_NOT_UNIQUE = '⚠️Le ID choisis existe déjà, svp veuillez en choisir un autre!..'\n# DATETIME UTILS",
+        "peekOfCode": "MODIFY_ARTICLE_PAGE = 'modify-article.html'\nSEARCH_RESULT_PAGE = 'search-result.html'\nERR_MSG_EMPTY_FIELDS = '⚠️Tous les champs doivent impérativement être remplis!..'\nERR_MSG_TITRE = '⚠️Le champs Titre doit impérativement contenir entre 3 et 100 caractères!..'\nERR_MSG_IDENTIFIANT = '⚠️Le champs Identifiant doit impérativement contenir entre 3 et 50 caractères!..'\nERR_MSG_AUTEUR = '⚠️Le champs Auteur doit impérativement contenir entre 4 et 100 caractères!..'\nERR_MSG_DATE = '⚠️Le champs Date doit impérativement être de la forme ⟹ (YYYY-mm-jj) avec des nombres!..'\nERR_MSG_PARAGRAPHE = '⚠️Le champs Auteur doit impérativement contenir entre 1 et 500 caractères!..'\nERR_MSG_ID_NOT_UNIQUE = '⚠️Le ID choisis existe déjà, svp veuillez en choisir un autre!..'\nINFO_MSG_CREATED = '✅Merci, votre article a été ajouté avec succès!..'",
         "detail": "inf5190_tp1_src.app",
         "documentation": {}
     },
@@ -264,7 +292,7 @@
         "kind": 5,
         "importPath": "inf5190_tp1_src.app",
         "description": "inf5190_tp1_src.app",
-        "peekOfCode": "SEARCH_RESULT_PAGE = 'search-result.html'\nERR_MSG_EMPTY_FIELDS = '⚠️Tous les champs doivent impérativement être remplis!..'\nERR_MSG_TITRE = '⚠️Le champs Titre doit impérativement contenir entre 3 et 100 caractères!..'\nERR_MSG_IDENTIFIANT = '⚠️Le champs Identifiant doit impérativement contenir entre 3 et 50 caractères!..'\nERR_MSG_AUTEUR = '⚠️Le champs Auteur doit impérativement contenir entre 4 et 100 caractères!..'\nERR_MSG_DATE = '⚠️Le champs Date doit impérativement être de la forme ⟹ (YYYY-mm-jj) avec des nombres!..'\nERR_MSG_PARAGRAPHE = '⚠️Le champs Auteur doit impérativement contenir entre 1 et 500 caractères!..'\nERR_MSG_ID_NOT_UNIQUE = '⚠️Le ID choisis existe déjà, svp veuillez en choisir un autre!..'\n# DATETIME UTILS\ntoday = datetime.now().strftime(\"%Y-%m-%d\")",
+        "peekOfCode": "SEARCH_RESULT_PAGE = 'search-result.html'\nERR_MSG_EMPTY_FIELDS = '⚠️Tous les champs doivent impérativement être remplis!..'\nERR_MSG_TITRE = '⚠️Le champs Titre doit impérativement contenir entre 3 et 100 caractères!..'\nERR_MSG_IDENTIFIANT = '⚠️Le champs Identifiant doit impérativement contenir entre 3 et 50 caractères!..'\nERR_MSG_AUTEUR = '⚠️Le champs Auteur doit impérativement contenir entre 4 et 100 caractères!..'\nERR_MSG_DATE = '⚠️Le champs Date doit impérativement être de la forme ⟹ (YYYY-mm-jj) avec des nombres!..'\nERR_MSG_PARAGRAPHE = '⚠️Le champs Auteur doit impérativement contenir entre 1 et 500 caractères!..'\nERR_MSG_ID_NOT_UNIQUE = '⚠️Le ID choisis existe déjà, svp veuillez en choisir un autre!..'\nINFO_MSG_CREATED = '✅Merci, votre article a été ajouté avec succès!..'\nINFO_MSG_MODIFIED = '✅Merci, votre article a été modifié avec succès!..'",
         "detail": "inf5190_tp1_src.app",
         "documentation": {}
     },
@@ -273,7 +301,7 @@
         "kind": 5,
         "importPath": "inf5190_tp1_src.app",
         "description": "inf5190_tp1_src.app",
-        "peekOfCode": "ERR_MSG_EMPTY_FIELDS = '⚠️Tous les champs doivent impérativement être remplis!..'\nERR_MSG_TITRE = '⚠️Le champs Titre doit impérativement contenir entre 3 et 100 caractères!..'\nERR_MSG_IDENTIFIANT = '⚠️Le champs Identifiant doit impérativement contenir entre 3 et 50 caractères!..'\nERR_MSG_AUTEUR = '⚠️Le champs Auteur doit impérativement contenir entre 4 et 100 caractères!..'\nERR_MSG_DATE = '⚠️Le champs Date doit impérativement être de la forme ⟹ (YYYY-mm-jj) avec des nombres!..'\nERR_MSG_PARAGRAPHE = '⚠️Le champs Auteur doit impérativement contenir entre 1 et 500 caractères!..'\nERR_MSG_ID_NOT_UNIQUE = '⚠️Le ID choisis existe déjà, svp veuillez en choisir un autre!..'\n# DATETIME UTILS\ntoday = datetime.now().strftime(\"%Y-%m-%d\")\ndef get_db():",
+        "peekOfCode": "ERR_MSG_EMPTY_FIELDS = '⚠️Tous les champs doivent impérativement être remplis!..'\nERR_MSG_TITRE = '⚠️Le champs Titre doit impérativement contenir entre 3 et 100 caractères!..'\nERR_MSG_IDENTIFIANT = '⚠️Le champs Identifiant doit impérativement contenir entre 3 et 50 caractères!..'\nERR_MSG_AUTEUR = '⚠️Le champs Auteur doit impérativement contenir entre 4 et 100 caractères!..'\nERR_MSG_DATE = '⚠️Le champs Date doit impérativement être de la forme ⟹ (YYYY-mm-jj) avec des nombres!..'\nERR_MSG_PARAGRAPHE = '⚠️Le champs Auteur doit impérativement contenir entre 1 et 500 caractères!..'\nERR_MSG_ID_NOT_UNIQUE = '⚠️Le ID choisis existe déjà, svp veuillez en choisir un autre!..'\nINFO_MSG_CREATED = '✅Merci, votre article a été ajouté avec succès!..'\nINFO_MSG_MODIFIED = '✅Merci, votre article a été modifié avec succès!..'\nPATTERN_DATE = '^\\d{4}-\\d{2}-\\d{2}$'",
         "detail": "inf5190_tp1_src.app",
         "documentation": {}
     },
@@ -282,7 +310,7 @@
         "kind": 5,
         "importPath": "inf5190_tp1_src.app",
         "description": "inf5190_tp1_src.app",
-        "peekOfCode": "ERR_MSG_TITRE = '⚠️Le champs Titre doit impérativement contenir entre 3 et 100 caractères!..'\nERR_MSG_IDENTIFIANT = '⚠️Le champs Identifiant doit impérativement contenir entre 3 et 50 caractères!..'\nERR_MSG_AUTEUR = '⚠️Le champs Auteur doit impérativement contenir entre 4 et 100 caractères!..'\nERR_MSG_DATE = '⚠️Le champs Date doit impérativement être de la forme ⟹ (YYYY-mm-jj) avec des nombres!..'\nERR_MSG_PARAGRAPHE = '⚠️Le champs Auteur doit impérativement contenir entre 1 et 500 caractères!..'\nERR_MSG_ID_NOT_UNIQUE = '⚠️Le ID choisis existe déjà, svp veuillez en choisir un autre!..'\n# DATETIME UTILS\ntoday = datetime.now().strftime(\"%Y-%m-%d\")\ndef get_db():\n    # [x]",
+        "peekOfCode": "ERR_MSG_TITRE = '⚠️Le champs Titre doit impérativement contenir entre 3 et 100 caractères!..'\nERR_MSG_IDENTIFIANT = '⚠️Le champs Identifiant doit impérativement contenir entre 3 et 50 caractères!..'\nERR_MSG_AUTEUR = '⚠️Le champs Auteur doit impérativement contenir entre 4 et 100 caractères!..'\nERR_MSG_DATE = '⚠️Le champs Date doit impérativement être de la forme ⟹ (YYYY-mm-jj) avec des nombres!..'\nERR_MSG_PARAGRAPHE = '⚠️Le champs Auteur doit impérativement contenir entre 1 et 500 caractères!..'\nERR_MSG_ID_NOT_UNIQUE = '⚠️Le ID choisis existe déjà, svp veuillez en choisir un autre!..'\nINFO_MSG_CREATED = '✅Merci, votre article a été ajouté avec succès!..'\nINFO_MSG_MODIFIED = '✅Merci, votre article a été modifié avec succès!..'\nPATTERN_DATE = '^\\d{4}-\\d{2}-\\d{2}$'\n# DATETIME UTILS",
         "detail": "inf5190_tp1_src.app",
         "documentation": {}
     },
@@ -291,7 +319,7 @@
         "kind": 5,
         "importPath": "inf5190_tp1_src.app",
         "description": "inf5190_tp1_src.app",
-        "peekOfCode": "ERR_MSG_IDENTIFIANT = '⚠️Le champs Identifiant doit impérativement contenir entre 3 et 50 caractères!..'\nERR_MSG_AUTEUR = '⚠️Le champs Auteur doit impérativement contenir entre 4 et 100 caractères!..'\nERR_MSG_DATE = '⚠️Le champs Date doit impérativement être de la forme ⟹ (YYYY-mm-jj) avec des nombres!..'\nERR_MSG_PARAGRAPHE = '⚠️Le champs Auteur doit impérativement contenir entre 1 et 500 caractères!..'\nERR_MSG_ID_NOT_UNIQUE = '⚠️Le ID choisis existe déjà, svp veuillez en choisir un autre!..'\n# DATETIME UTILS\ntoday = datetime.now().strftime(\"%Y-%m-%d\")\ndef get_db():\n    # [x]\n    db = getattr(g, '_database', None)",
+        "peekOfCode": "ERR_MSG_IDENTIFIANT = '⚠️Le champs Identifiant doit impérativement contenir entre 3 et 50 caractères!..'\nERR_MSG_AUTEUR = '⚠️Le champs Auteur doit impérativement contenir entre 4 et 100 caractères!..'\nERR_MSG_DATE = '⚠️Le champs Date doit impérativement être de la forme ⟹ (YYYY-mm-jj) avec des nombres!..'\nERR_MSG_PARAGRAPHE = '⚠️Le champs Auteur doit impérativement contenir entre 1 et 500 caractères!..'\nERR_MSG_ID_NOT_UNIQUE = '⚠️Le ID choisis existe déjà, svp veuillez en choisir un autre!..'\nINFO_MSG_CREATED = '✅Merci, votre article a été ajouté avec succès!..'\nINFO_MSG_MODIFIED = '✅Merci, votre article a été modifié avec succès!..'\nPATTERN_DATE = '^\\d{4}-\\d{2}-\\d{2}$'\n# DATETIME UTILS\ntoday = datetime.now().strftime(\"%Y-%m-%d\")",
         "detail": "inf5190_tp1_src.app",
         "documentation": {}
     },
@@ -300,7 +328,7 @@
         "kind": 5,
         "importPath": "inf5190_tp1_src.app",
         "description": "inf5190_tp1_src.app",
-        "peekOfCode": "ERR_MSG_AUTEUR = '⚠️Le champs Auteur doit impérativement contenir entre 4 et 100 caractères!..'\nERR_MSG_DATE = '⚠️Le champs Date doit impérativement être de la forme ⟹ (YYYY-mm-jj) avec des nombres!..'\nERR_MSG_PARAGRAPHE = '⚠️Le champs Auteur doit impérativement contenir entre 1 et 500 caractères!..'\nERR_MSG_ID_NOT_UNIQUE = '⚠️Le ID choisis existe déjà, svp veuillez en choisir un autre!..'\n# DATETIME UTILS\ntoday = datetime.now().strftime(\"%Y-%m-%d\")\ndef get_db():\n    # [x]\n    db = getattr(g, '_database', None)\n    if db is None:",
+        "peekOfCode": "ERR_MSG_AUTEUR = '⚠️Le champs Auteur doit impérativement contenir entre 4 et 100 caractères!..'\nERR_MSG_DATE = '⚠️Le champs Date doit impérativement être de la forme ⟹ (YYYY-mm-jj) avec des nombres!..'\nERR_MSG_PARAGRAPHE = '⚠️Le champs Auteur doit impérativement contenir entre 1 et 500 caractères!..'\nERR_MSG_ID_NOT_UNIQUE = '⚠️Le ID choisis existe déjà, svp veuillez en choisir un autre!..'\nINFO_MSG_CREATED = '✅Merci, votre article a été ajouté avec succès!..'\nINFO_MSG_MODIFIED = '✅Merci, votre article a été modifié avec succès!..'\nPATTERN_DATE = '^\\d{4}-\\d{2}-\\d{2}$'\n# DATETIME UTILS\ntoday = datetime.now().strftime(\"%Y-%m-%d\")\ndef get_db():",
         "detail": "inf5190_tp1_src.app",
         "documentation": {}
     },
@@ -309,7 +337,7 @@
         "kind": 5,
         "importPath": "inf5190_tp1_src.app",
         "description": "inf5190_tp1_src.app",
-        "peekOfCode": "ERR_MSG_DATE = '⚠️Le champs Date doit impérativement être de la forme ⟹ (YYYY-mm-jj) avec des nombres!..'\nERR_MSG_PARAGRAPHE = '⚠️Le champs Auteur doit impérativement contenir entre 1 et 500 caractères!..'\nERR_MSG_ID_NOT_UNIQUE = '⚠️Le ID choisis existe déjà, svp veuillez en choisir un autre!..'\n# DATETIME UTILS\ntoday = datetime.now().strftime(\"%Y-%m-%d\")\ndef get_db():\n    # [x]\n    db = getattr(g, '_database', None)\n    if db is None:\n        g._database = Database()",
+        "peekOfCode": "ERR_MSG_DATE = '⚠️Le champs Date doit impérativement être de la forme ⟹ (YYYY-mm-jj) avec des nombres!..'\nERR_MSG_PARAGRAPHE = '⚠️Le champs Auteur doit impérativement contenir entre 1 et 500 caractères!..'\nERR_MSG_ID_NOT_UNIQUE = '⚠️Le ID choisis existe déjà, svp veuillez en choisir un autre!..'\nINFO_MSG_CREATED = '✅Merci, votre article a été ajouté avec succès!..'\nINFO_MSG_MODIFIED = '✅Merci, votre article a été modifié avec succès!..'\nPATTERN_DATE = '^\\d{4}-\\d{2}-\\d{2}$'\n# DATETIME UTILS\ntoday = datetime.now().strftime(\"%Y-%m-%d\")\ndef get_db():\n    # [x]",
         "detail": "inf5190_tp1_src.app",
         "documentation": {}
     },
@@ -318,7 +346,7 @@
         "kind": 5,
         "importPath": "inf5190_tp1_src.app",
         "description": "inf5190_tp1_src.app",
-        "peekOfCode": "ERR_MSG_PARAGRAPHE = '⚠️Le champs Auteur doit impérativement contenir entre 1 et 500 caractères!..'\nERR_MSG_ID_NOT_UNIQUE = '⚠️Le ID choisis existe déjà, svp veuillez en choisir un autre!..'\n# DATETIME UTILS\ntoday = datetime.now().strftime(\"%Y-%m-%d\")\ndef get_db():\n    # [x]\n    db = getattr(g, '_database', None)\n    if db is None:\n        g._database = Database()\n    return g._database",
+        "peekOfCode": "ERR_MSG_PARAGRAPHE = '⚠️Le champs Auteur doit impérativement contenir entre 1 et 500 caractères!..'\nERR_MSG_ID_NOT_UNIQUE = '⚠️Le ID choisis existe déjà, svp veuillez en choisir un autre!..'\nINFO_MSG_CREATED = '✅Merci, votre article a été ajouté avec succès!..'\nINFO_MSG_MODIFIED = '✅Merci, votre article a été modifié avec succès!..'\nPATTERN_DATE = '^\\d{4}-\\d{2}-\\d{2}$'\n# DATETIME UTILS\ntoday = datetime.now().strftime(\"%Y-%m-%d\")\ndef get_db():\n    # [x]\n    db = getattr(g, '_database', None)",
         "detail": "inf5190_tp1_src.app",
         "documentation": {}
     },
@@ -327,7 +355,34 @@
         "kind": 5,
         "importPath": "inf5190_tp1_src.app",
         "description": "inf5190_tp1_src.app",
-        "peekOfCode": "ERR_MSG_ID_NOT_UNIQUE = '⚠️Le ID choisis existe déjà, svp veuillez en choisir un autre!..'\n# DATETIME UTILS\ntoday = datetime.now().strftime(\"%Y-%m-%d\")\ndef get_db():\n    # [x]\n    db = getattr(g, '_database', None)\n    if db is None:\n        g._database = Database()\n    return g._database\n@app.teardown_appcontext",
+        "peekOfCode": "ERR_MSG_ID_NOT_UNIQUE = '⚠️Le ID choisis existe déjà, svp veuillez en choisir un autre!..'\nINFO_MSG_CREATED = '✅Merci, votre article a été ajouté avec succès!..'\nINFO_MSG_MODIFIED = '✅Merci, votre article a été modifié avec succès!..'\nPATTERN_DATE = '^\\d{4}-\\d{2}-\\d{2}$'\n# DATETIME UTILS\ntoday = datetime.now().strftime(\"%Y-%m-%d\")\ndef get_db():\n    # [x]\n    db = getattr(g, '_database', None)\n    if db is None:",
+        "detail": "inf5190_tp1_src.app",
+        "documentation": {}
+    },
+    {
+        "label": "INFO_MSG_CREATED",
+        "kind": 5,
+        "importPath": "inf5190_tp1_src.app",
+        "description": "inf5190_tp1_src.app",
+        "peekOfCode": "INFO_MSG_CREATED = '✅Merci, votre article a été ajouté avec succès!..'\nINFO_MSG_MODIFIED = '✅Merci, votre article a été modifié avec succès!..'\nPATTERN_DATE = '^\\d{4}-\\d{2}-\\d{2}$'\n# DATETIME UTILS\ntoday = datetime.now().strftime(\"%Y-%m-%d\")\ndef get_db():\n    # [x]\n    db = getattr(g, '_database', None)\n    if db is None:\n        g._database = Database()",
+        "detail": "inf5190_tp1_src.app",
+        "documentation": {}
+    },
+    {
+        "label": "INFO_MSG_MODIFIED",
+        "kind": 5,
+        "importPath": "inf5190_tp1_src.app",
+        "description": "inf5190_tp1_src.app",
+        "peekOfCode": "INFO_MSG_MODIFIED = '✅Merci, votre article a été modifié avec succès!..'\nPATTERN_DATE = '^\\d{4}-\\d{2}-\\d{2}$'\n# DATETIME UTILS\ntoday = datetime.now().strftime(\"%Y-%m-%d\")\ndef get_db():\n    # [x]\n    db = getattr(g, '_database', None)\n    if db is None:\n        g._database = Database()\n    return g._database",
+        "detail": "inf5190_tp1_src.app",
+        "documentation": {}
+    },
+    {
+        "label": "PATTERN_DATE",
+        "kind": 5,
+        "importPath": "inf5190_tp1_src.app",
+        "description": "inf5190_tp1_src.app",
+        "peekOfCode": "PATTERN_DATE = '^\\d{4}-\\d{2}-\\d{2}$'\n# DATETIME UTILS\ntoday = datetime.now().strftime(\"%Y-%m-%d\")\ndef get_db():\n    # [x]\n    db = getattr(g, '_database', None)\n    if db is None:\n        g._database = Database()\n    return g._database\n@app.teardown_appcontext",
         "detail": "inf5190_tp1_src.app",
         "documentation": {}
     },
