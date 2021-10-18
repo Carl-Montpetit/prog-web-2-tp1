@@ -102,7 +102,7 @@
         "kind": 6,
         "importPath": "inf5190_tp1_src.article.Article",
         "description": "inf5190_tp1_src.article.Article",
-        "peekOfCode": "class Article:\n    def __init__(self, id, titre, identifiant, auteur, date_publication, paragraphe):\n        self.id = id\n        self.titre = titre\n        self.identifiant = identifiant\n        self.auteur = auteur\n        self.date_publication = date_publication\n        self.paragraphe = paragraphe\n    def to_dictionnary(self):\n        \"\"\"[map everything as a dictionnary]",
+        "peekOfCode": "class Article:\n    def __init__(self, titre, identifiant, auteur, date_publication, paragraphe):\n        self.titre = titre\n        self.identifiant = identifiant\n        self.auteur = auteur\n        self.date_publication = date_publication\n        self.paragraphe = paragraphe\n    def to_dictionnary(self):\n        \"\"\"[map everything as a dictionnary]\n        \"\"\"",
         "detail": "inf5190_tp1_src.article.Article",
         "documentation": {}
     },
@@ -156,7 +156,7 @@
         "kind": 2,
         "importPath": "inf5190_tp1_src.app",
         "description": "inf5190_tp1_src.app",
-        "peekOfCode": "def get_an_article(identifiant):\n    article = Article()\n    article = get_db().get_article_by_identifiant(identifiant)\n    return render_template(ARTICLE_PAGE, article=article)\n@app.route('/admin', methods=['GET'])\n# [x]\ndef get_admin():\n    return render_template(ADMIN_PAGE)\n@app.route('/admin-nouveau', methods=['GET'])\n# [x]",
+        "peekOfCode": "def get_an_article(identifiant):\n    article = get_db().get_article_by_identifiant(identifiant)\n    return render_template(ARTICLE_PAGE, article=article)\n@app.route('/admin', methods=['GET'])\n# [x]\ndef get_admin():\n    return render_template(ADMIN_PAGE)\n@app.route('/admin-nouveau', methods=['GET'])\n# [x]\ndef get_admin_new():",
         "detail": "inf5190_tp1_src.app",
         "documentation": {}
     },
@@ -183,7 +183,7 @@
         "kind": 2,
         "importPath": "inf5190_tp1_src.app",
         "description": "inf5190_tp1_src.app",
-        "peekOfCode": "def add_new_article_in_bd():\n    \"\"\"[Page with form for creating a new article]\n    Returns:\n        [Text]: [redirect ⟹ '/' or home.html]\n    \"\"\"\n    PATTERN_DATE = '^\\d{4}-\\d{2}-\\d{2}$'\n    PATTERN_ID = '^\\d+$'\n    id_article = request.form['id_article']\n    id_validation = re.match(PATTERN_ID, id_article)\n    titre = request.form['titre']",
+        "peekOfCode": "def add_new_article_in_bd():\n    \"\"\"[Page with form for creating a new article]\n    Returns:\n        [Text]: [redirect ⟹ '/' or home.html]\n    \"\"\"\n    PATTERN_DATE = '^\\d{4}-\\d{2}-\\d{2}$'\n    titre = request.form['titre']\n    identifiant = request.form['identifiant']\n    auteur = request.form['auteur']\n    date = request.form['date']",
         "detail": "inf5190_tp1_src.app",
         "documentation": {}
     },
@@ -210,7 +210,7 @@
         "kind": 5,
         "importPath": "inf5190_tp1_src.app",
         "description": "inf5190_tp1_src.app",
-        "peekOfCode": "ADMIN_PAGE = 'admin.html'\nADMIN_NEW_ARTICLE_PAGE = 'admin-new.html'\nARTICLE_PAGE = 'article.html'\nHOME_PAGE = 'home.html'\nERR_404_PAGE = '404.html'\nMODIFY_ARTICLE_PAGE = 'modify-article.html'\nSEARCH_RESULT_PAGE = 'search-result.html'\nERR_MSG_EMPTY_FIELDS = '⚠️Tous les champs doivent impérativement être remplis!..'\nERR_MSG_ID = '⚠️Le champs ID doit impérativement être un nombre positif!..'\nERR_MSG_TITRE = '⚠️Le champs Titre doit impérativement contenir entre 3 et 100 caractères!..'",
+        "peekOfCode": "ADMIN_PAGE = 'admin.html'\nADMIN_NEW_ARTICLE_PAGE = 'admin-new.html'\nARTICLE_PAGE = 'article.html'\nHOME_PAGE = 'home.html'\nERR_404_PAGE = '404.html'\nMODIFY_ARTICLE_PAGE = 'modify-article.html'\nSEARCH_RESULT_PAGE = 'search-result.html'\nERR_MSG_EMPTY_FIELDS = '⚠️Tous les champs doivent impérativement être remplis!..'\nERR_MSG_TITRE = '⚠️Le champs Titre doit impérativement contenir entre 3 et 100 caractères!..'\nERR_MSG_IDENTIFIANT = '⚠️Le champs Identifiant doit impérativement contenir entre 3 et 50 caractères!..'",
         "detail": "inf5190_tp1_src.app",
         "documentation": {}
     },
@@ -219,7 +219,7 @@
         "kind": 5,
         "importPath": "inf5190_tp1_src.app",
         "description": "inf5190_tp1_src.app",
-        "peekOfCode": "ADMIN_NEW_ARTICLE_PAGE = 'admin-new.html'\nARTICLE_PAGE = 'article.html'\nHOME_PAGE = 'home.html'\nERR_404_PAGE = '404.html'\nMODIFY_ARTICLE_PAGE = 'modify-article.html'\nSEARCH_RESULT_PAGE = 'search-result.html'\nERR_MSG_EMPTY_FIELDS = '⚠️Tous les champs doivent impérativement être remplis!..'\nERR_MSG_ID = '⚠️Le champs ID doit impérativement être un nombre positif!..'\nERR_MSG_TITRE = '⚠️Le champs Titre doit impérativement contenir entre 3 et 100 caractères!..'\nERR_MSG_IDENTIFIANT = '⚠️Le champs Identifiant doit impérativement contenir entre 3 et 50 caractères!..'",
+        "peekOfCode": "ADMIN_NEW_ARTICLE_PAGE = 'admin-new.html'\nARTICLE_PAGE = 'article.html'\nHOME_PAGE = 'home.html'\nERR_404_PAGE = '404.html'\nMODIFY_ARTICLE_PAGE = 'modify-article.html'\nSEARCH_RESULT_PAGE = 'search-result.html'\nERR_MSG_EMPTY_FIELDS = '⚠️Tous les champs doivent impérativement être remplis!..'\nERR_MSG_TITRE = '⚠️Le champs Titre doit impérativement contenir entre 3 et 100 caractères!..'\nERR_MSG_IDENTIFIANT = '⚠️Le champs Identifiant doit impérativement contenir entre 3 et 50 caractères!..'\nERR_MSG_AUTEUR = '⚠️Le champs Auteur doit impérativement contenir entre 4 et 100 caractères!..'",
         "detail": "inf5190_tp1_src.app",
         "documentation": {}
     },
@@ -228,7 +228,7 @@
         "kind": 5,
         "importPath": "inf5190_tp1_src.app",
         "description": "inf5190_tp1_src.app",
-        "peekOfCode": "ARTICLE_PAGE = 'article.html'\nHOME_PAGE = 'home.html'\nERR_404_PAGE = '404.html'\nMODIFY_ARTICLE_PAGE = 'modify-article.html'\nSEARCH_RESULT_PAGE = 'search-result.html'\nERR_MSG_EMPTY_FIELDS = '⚠️Tous les champs doivent impérativement être remplis!..'\nERR_MSG_ID = '⚠️Le champs ID doit impérativement être un nombre positif!..'\nERR_MSG_TITRE = '⚠️Le champs Titre doit impérativement contenir entre 3 et 100 caractères!..'\nERR_MSG_IDENTIFIANT = '⚠️Le champs Identifiant doit impérativement contenir entre 3 et 50 caractères!..'\nERR_MSG_AUTEUR = '⚠️Le champs Auteur doit impérativement contenir entre 4 et 100 caractères!..'",
+        "peekOfCode": "ARTICLE_PAGE = 'article.html'\nHOME_PAGE = 'home.html'\nERR_404_PAGE = '404.html'\nMODIFY_ARTICLE_PAGE = 'modify-article.html'\nSEARCH_RESULT_PAGE = 'search-result.html'\nERR_MSG_EMPTY_FIELDS = '⚠️Tous les champs doivent impérativement être remplis!..'\nERR_MSG_TITRE = '⚠️Le champs Titre doit impérativement contenir entre 3 et 100 caractères!..'\nERR_MSG_IDENTIFIANT = '⚠️Le champs Identifiant doit impérativement contenir entre 3 et 50 caractères!..'\nERR_MSG_AUTEUR = '⚠️Le champs Auteur doit impérativement contenir entre 4 et 100 caractères!..'\nERR_MSG_DATE = '⚠️Le champs Date doit impérativement être de la forme ⟹ (YYYY-mm-jj) avec des nombres!..'",
         "detail": "inf5190_tp1_src.app",
         "documentation": {}
     },
@@ -237,7 +237,7 @@
         "kind": 5,
         "importPath": "inf5190_tp1_src.app",
         "description": "inf5190_tp1_src.app",
-        "peekOfCode": "HOME_PAGE = 'home.html'\nERR_404_PAGE = '404.html'\nMODIFY_ARTICLE_PAGE = 'modify-article.html'\nSEARCH_RESULT_PAGE = 'search-result.html'\nERR_MSG_EMPTY_FIELDS = '⚠️Tous les champs doivent impérativement être remplis!..'\nERR_MSG_ID = '⚠️Le champs ID doit impérativement être un nombre positif!..'\nERR_MSG_TITRE = '⚠️Le champs Titre doit impérativement contenir entre 3 et 100 caractères!..'\nERR_MSG_IDENTIFIANT = '⚠️Le champs Identifiant doit impérativement contenir entre 3 et 50 caractères!..'\nERR_MSG_AUTEUR = '⚠️Le champs Auteur doit impérativement contenir entre 4 et 100 caractères!..'\nERR_MSG_DATE = '⚠️Le champs Date doit impérativement être de la forme ⟹ (YYYY-mm-jj) avec des nombres!..'",
+        "peekOfCode": "HOME_PAGE = 'home.html'\nERR_404_PAGE = '404.html'\nMODIFY_ARTICLE_PAGE = 'modify-article.html'\nSEARCH_RESULT_PAGE = 'search-result.html'\nERR_MSG_EMPTY_FIELDS = '⚠️Tous les champs doivent impérativement être remplis!..'\nERR_MSG_TITRE = '⚠️Le champs Titre doit impérativement contenir entre 3 et 100 caractères!..'\nERR_MSG_IDENTIFIANT = '⚠️Le champs Identifiant doit impérativement contenir entre 3 et 50 caractères!..'\nERR_MSG_AUTEUR = '⚠️Le champs Auteur doit impérativement contenir entre 4 et 100 caractères!..'\nERR_MSG_DATE = '⚠️Le champs Date doit impérativement être de la forme ⟹ (YYYY-mm-jj) avec des nombres!..'\nERR_MSG_PARAGRAPHE = '⚠️Le champs Auteur doit impérativement contenir entre 1 et 500 caractères!..'",
         "detail": "inf5190_tp1_src.app",
         "documentation": {}
     },
@@ -246,7 +246,7 @@
         "kind": 5,
         "importPath": "inf5190_tp1_src.app",
         "description": "inf5190_tp1_src.app",
-        "peekOfCode": "ERR_404_PAGE = '404.html'\nMODIFY_ARTICLE_PAGE = 'modify-article.html'\nSEARCH_RESULT_PAGE = 'search-result.html'\nERR_MSG_EMPTY_FIELDS = '⚠️Tous les champs doivent impérativement être remplis!..'\nERR_MSG_ID = '⚠️Le champs ID doit impérativement être un nombre positif!..'\nERR_MSG_TITRE = '⚠️Le champs Titre doit impérativement contenir entre 3 et 100 caractères!..'\nERR_MSG_IDENTIFIANT = '⚠️Le champs Identifiant doit impérativement contenir entre 3 et 50 caractères!..'\nERR_MSG_AUTEUR = '⚠️Le champs Auteur doit impérativement contenir entre 4 et 100 caractères!..'\nERR_MSG_DATE = '⚠️Le champs Date doit impérativement être de la forme ⟹ (YYYY-mm-jj) avec des nombres!..'\nERR_MSG_PARAGRAPHE = '⚠️Le champs Auteur doit impérativement contenir entre 1 et 500 caractères!..'",
+        "peekOfCode": "ERR_404_PAGE = '404.html'\nMODIFY_ARTICLE_PAGE = 'modify-article.html'\nSEARCH_RESULT_PAGE = 'search-result.html'\nERR_MSG_EMPTY_FIELDS = '⚠️Tous les champs doivent impérativement être remplis!..'\nERR_MSG_TITRE = '⚠️Le champs Titre doit impérativement contenir entre 3 et 100 caractères!..'\nERR_MSG_IDENTIFIANT = '⚠️Le champs Identifiant doit impérativement contenir entre 3 et 50 caractères!..'\nERR_MSG_AUTEUR = '⚠️Le champs Auteur doit impérativement contenir entre 4 et 100 caractères!..'\nERR_MSG_DATE = '⚠️Le champs Date doit impérativement être de la forme ⟹ (YYYY-mm-jj) avec des nombres!..'\nERR_MSG_PARAGRAPHE = '⚠️Le champs Auteur doit impérativement contenir entre 1 et 500 caractères!..'\nERR_MSG_ID_NOT_UNIQUE = '⚠️Le ID choisis existe déjà, svp veuillez en choisir un autre!..'",
         "detail": "inf5190_tp1_src.app",
         "documentation": {}
     },
@@ -255,7 +255,7 @@
         "kind": 5,
         "importPath": "inf5190_tp1_src.app",
         "description": "inf5190_tp1_src.app",
-        "peekOfCode": "MODIFY_ARTICLE_PAGE = 'modify-article.html'\nSEARCH_RESULT_PAGE = 'search-result.html'\nERR_MSG_EMPTY_FIELDS = '⚠️Tous les champs doivent impérativement être remplis!..'\nERR_MSG_ID = '⚠️Le champs ID doit impérativement être un nombre positif!..'\nERR_MSG_TITRE = '⚠️Le champs Titre doit impérativement contenir entre 3 et 100 caractères!..'\nERR_MSG_IDENTIFIANT = '⚠️Le champs Identifiant doit impérativement contenir entre 3 et 50 caractères!..'\nERR_MSG_AUTEUR = '⚠️Le champs Auteur doit impérativement contenir entre 4 et 100 caractères!..'\nERR_MSG_DATE = '⚠️Le champs Date doit impérativement être de la forme ⟹ (YYYY-mm-jj) avec des nombres!..'\nERR_MSG_PARAGRAPHE = '⚠️Le champs Auteur doit impérativement contenir entre 1 et 500 caractères!..'\nERR_MSG_ID_NOT_UNIQUE = '⚠️Le ID choisis existe déjà, svp veuillez en choisir un autre!..'",
+        "peekOfCode": "MODIFY_ARTICLE_PAGE = 'modify-article.html'\nSEARCH_RESULT_PAGE = 'search-result.html'\nERR_MSG_EMPTY_FIELDS = '⚠️Tous les champs doivent impérativement être remplis!..'\nERR_MSG_TITRE = '⚠️Le champs Titre doit impérativement contenir entre 3 et 100 caractères!..'\nERR_MSG_IDENTIFIANT = '⚠️Le champs Identifiant doit impérativement contenir entre 3 et 50 caractères!..'\nERR_MSG_AUTEUR = '⚠️Le champs Auteur doit impérativement contenir entre 4 et 100 caractères!..'\nERR_MSG_DATE = '⚠️Le champs Date doit impérativement être de la forme ⟹ (YYYY-mm-jj) avec des nombres!..'\nERR_MSG_PARAGRAPHE = '⚠️Le champs Auteur doit impérativement contenir entre 1 et 500 caractères!..'\nERR_MSG_ID_NOT_UNIQUE = '⚠️Le ID choisis existe déjà, svp veuillez en choisir un autre!..'\n# DATETIME UTILS",
         "detail": "inf5190_tp1_src.app",
         "documentation": {}
     },
@@ -264,7 +264,7 @@
         "kind": 5,
         "importPath": "inf5190_tp1_src.app",
         "description": "inf5190_tp1_src.app",
-        "peekOfCode": "SEARCH_RESULT_PAGE = 'search-result.html'\nERR_MSG_EMPTY_FIELDS = '⚠️Tous les champs doivent impérativement être remplis!..'\nERR_MSG_ID = '⚠️Le champs ID doit impérativement être un nombre positif!..'\nERR_MSG_TITRE = '⚠️Le champs Titre doit impérativement contenir entre 3 et 100 caractères!..'\nERR_MSG_IDENTIFIANT = '⚠️Le champs Identifiant doit impérativement contenir entre 3 et 50 caractères!..'\nERR_MSG_AUTEUR = '⚠️Le champs Auteur doit impérativement contenir entre 4 et 100 caractères!..'\nERR_MSG_DATE = '⚠️Le champs Date doit impérativement être de la forme ⟹ (YYYY-mm-jj) avec des nombres!..'\nERR_MSG_PARAGRAPHE = '⚠️Le champs Auteur doit impérativement contenir entre 1 et 500 caractères!..'\nERR_MSG_ID_NOT_UNIQUE = '⚠️Le ID choisis existe déjà, svp veuillez en choisir un autre!..'\n# DATETIME UTILS",
+        "peekOfCode": "SEARCH_RESULT_PAGE = 'search-result.html'\nERR_MSG_EMPTY_FIELDS = '⚠️Tous les champs doivent impérativement être remplis!..'\nERR_MSG_TITRE = '⚠️Le champs Titre doit impérativement contenir entre 3 et 100 caractères!..'\nERR_MSG_IDENTIFIANT = '⚠️Le champs Identifiant doit impérativement contenir entre 3 et 50 caractères!..'\nERR_MSG_AUTEUR = '⚠️Le champs Auteur doit impérativement contenir entre 4 et 100 caractères!..'\nERR_MSG_DATE = '⚠️Le champs Date doit impérativement être de la forme ⟹ (YYYY-mm-jj) avec des nombres!..'\nERR_MSG_PARAGRAPHE = '⚠️Le champs Auteur doit impérativement contenir entre 1 et 500 caractères!..'\nERR_MSG_ID_NOT_UNIQUE = '⚠️Le ID choisis existe déjà, svp veuillez en choisir un autre!..'\n# DATETIME UTILS\ntoday = datetime.now().strftime(\"%Y-%m-%d\")",
         "detail": "inf5190_tp1_src.app",
         "documentation": {}
     },
@@ -273,16 +273,7 @@
         "kind": 5,
         "importPath": "inf5190_tp1_src.app",
         "description": "inf5190_tp1_src.app",
-        "peekOfCode": "ERR_MSG_EMPTY_FIELDS = '⚠️Tous les champs doivent impérativement être remplis!..'\nERR_MSG_ID = '⚠️Le champs ID doit impérativement être un nombre positif!..'\nERR_MSG_TITRE = '⚠️Le champs Titre doit impérativement contenir entre 3 et 100 caractères!..'\nERR_MSG_IDENTIFIANT = '⚠️Le champs Identifiant doit impérativement contenir entre 3 et 50 caractères!..'\nERR_MSG_AUTEUR = '⚠️Le champs Auteur doit impérativement contenir entre 4 et 100 caractères!..'\nERR_MSG_DATE = '⚠️Le champs Date doit impérativement être de la forme ⟹ (YYYY-mm-jj) avec des nombres!..'\nERR_MSG_PARAGRAPHE = '⚠️Le champs Auteur doit impérativement contenir entre 1 et 500 caractères!..'\nERR_MSG_ID_NOT_UNIQUE = '⚠️Le ID choisis existe déjà, svp veuillez en choisir un autre!..'\n# DATETIME UTILS\ntoday = datetime.now().strftime(\"%Y-%m-%d\")",
-        "detail": "inf5190_tp1_src.app",
-        "documentation": {}
-    },
-    {
-        "label": "ERR_MSG_ID",
-        "kind": 5,
-        "importPath": "inf5190_tp1_src.app",
-        "description": "inf5190_tp1_src.app",
-        "peekOfCode": "ERR_MSG_ID = '⚠️Le champs ID doit impérativement être un nombre positif!..'\nERR_MSG_TITRE = '⚠️Le champs Titre doit impérativement contenir entre 3 et 100 caractères!..'\nERR_MSG_IDENTIFIANT = '⚠️Le champs Identifiant doit impérativement contenir entre 3 et 50 caractères!..'\nERR_MSG_AUTEUR = '⚠️Le champs Auteur doit impérativement contenir entre 4 et 100 caractères!..'\nERR_MSG_DATE = '⚠️Le champs Date doit impérativement être de la forme ⟹ (YYYY-mm-jj) avec des nombres!..'\nERR_MSG_PARAGRAPHE = '⚠️Le champs Auteur doit impérativement contenir entre 1 et 500 caractères!..'\nERR_MSG_ID_NOT_UNIQUE = '⚠️Le ID choisis existe déjà, svp veuillez en choisir un autre!..'\n# DATETIME UTILS\ntoday = datetime.now().strftime(\"%Y-%m-%d\")\ndef get_db():",
+        "peekOfCode": "ERR_MSG_EMPTY_FIELDS = '⚠️Tous les champs doivent impérativement être remplis!..'\nERR_MSG_TITRE = '⚠️Le champs Titre doit impérativement contenir entre 3 et 100 caractères!..'\nERR_MSG_IDENTIFIANT = '⚠️Le champs Identifiant doit impérativement contenir entre 3 et 50 caractères!..'\nERR_MSG_AUTEUR = '⚠️Le champs Auteur doit impérativement contenir entre 4 et 100 caractères!..'\nERR_MSG_DATE = '⚠️Le champs Date doit impérativement être de la forme ⟹ (YYYY-mm-jj) avec des nombres!..'\nERR_MSG_PARAGRAPHE = '⚠️Le champs Auteur doit impérativement contenir entre 1 et 500 caractères!..'\nERR_MSG_ID_NOT_UNIQUE = '⚠️Le ID choisis existe déjà, svp veuillez en choisir un autre!..'\n# DATETIME UTILS\ntoday = datetime.now().strftime(\"%Y-%m-%d\")\ndef get_db():",
         "detail": "inf5190_tp1_src.app",
         "documentation": {}
     },

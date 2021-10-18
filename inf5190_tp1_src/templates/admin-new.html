@@ -34,20 +34,6 @@
         Article 📰
       </p>
         <form id="article-form" class="form-group m-2 p-2 w-auto h-auto m-auto" method="post" action="/admin-nouveau" enctype="multipart/form-data" class="form-group">
-          <label class="font-weight-bold text-center\" for="id-article">ID :</label>
-          <input    
-            type="number"
-            id="id_article"
-            class="col-md-12 form-control m-auto w-auto border border-dark"
-            name="id_article"
-            placeholder="Entrez le ID de l'article"
-            required
-          />
-          {%if error%}
-          <div class="container alert-danger small text-center rounded-pill mt-1 w-50">
-            ⚠️Svp, veuillez entrer un <strong>ID</strong> <u>valide</u>!..
-          </div>
-          {%endif%}
           <label class="font-weight-bold text-center" for="titre">Titre :</label>
           <input
             type="text"

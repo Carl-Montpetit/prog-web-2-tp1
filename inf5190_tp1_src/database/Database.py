@@ -42,8 +42,8 @@ class Database:
         connection = self.get_connection()
         cursor = connection.cursor()
 
-        cursor.execute("INSERT INTO article (id, titre, identifiant, auteur, date_publication, paragraphe) VALUES (?, ?, ?, ?, ?, ?)", [
-                       article[0], article[1], article[2], article[3], article[4], article[5]])
+        cursor.execute("INSERT INTO article (titre, identifiant, auteur, date_publication, paragraphe) VALUES (?, ?, ?, ?, ?)", [
+                       article[0], article[1], article[2], article[3], article[4]])
         connection.commit()
         return 1
 
