@@ -6,8 +6,8 @@
       Création d'un nouvel article
     </h1>
   </div>
-  {%if error%}
-   <div class="container alert-danger border border-dark rounded text-center w-25 h-auto">{{error}}</div>
+  {%if err%}
+   <div class="container alert-danger border border-dark rounded text-center w-25 h-auto">{{err}}</div>
    {%endif%}
   <div class="row w-auto h-auto mt-lg-4 p-1 justify-content-center">
     <div id="article-create" class="col-3 w-auto h-auto mt-4 px-lg-2 text-center">
@@ -40,10 +40,11 @@
             id="titre"
             class="col-md-12 m-auto form-control w-auto border border-dark"
             name="titre"
+            value="{{titre}}"
             placeholder="Entrez le titre de l'article"
             required
           />
-          {%if error and err_titre%}
+          {%if err and err_titre%}
           <div class="container alert-danger small text-center rounded-pill mt-1 w-50">
             ⚠️Svp, veuillez entrer un <strong>titre</strong> <u>valide</u>!..
           </div>
@@ -54,10 +55,11 @@
             id="identifiant"
             class="col-md-12 m-auto form-control w-auto border border-dark"
             name="identifiant"
+            value="{{identifiant}}"
             placeholder="Entrez l'identifiant"
             required
           />
-          {%if error%}
+          {%if err and err_identifiant%}
           <div class="container alert-danger small text-center rounded-pill mt-1 w-50">
             ⚠️Svp, veuillez entrer un <strong>identifiant</strong> <u>valide</u>!..
           </div>
@@ -68,10 +70,11 @@
             id="auteur"
             class="col-md-12 m-auto form-control w-auto border border-dark"
             name="auteur"
+            value="{{auteur}}"
             placeholder="Entrez le nom de l'auteur"
             required
           />
-          {%if error%}
+          {%if err and err_auteur%}
           <div class="container alert-danger small text-center rounded-pill mt-1 w-50">
             ⚠️Svp, veuillez entrer un nom d'<strong>auteur</strong> <u>valide</u>!..
           </div>
@@ -82,10 +85,11 @@
             id="date_publication"
             class="col-md-12 m-auto form-control w-auto border border-dark"
             name="date_publication"
+            value="{{date_publication}}"
             placeholder="Entrez la date de publication"
             required
           />
-          {%if error%}
+          {%if err and err_date_validation%}
           <div class="container alert-danger small text-center rounded-pill mt-1 w-50">
             ⚠️Svp, veuillez entrer une <strong>date</strong> de publication <u>valide</u>!..
           </div>
@@ -101,9 +105,10 @@
               form="article-form"
               placeholder="Entrez le paragraphe de l'article ici"
               required
-            ></textarea>
-            {%if error%}
-            <div class="container alert-danger small text-center rounded-pill mt-1 w-50">
+            >{{paragraphe}}</textarea>
+            {%if err and err_paragraphe%}
+            <div class="container alert-danger small text-center rounded-pill mt-1 w-50"
+            >
               ⚠️Svp, veuillez entrer un <strong>paragraphe</strong> pour l'article <u>valide</u>!..
             </div> 
             {%endif%}

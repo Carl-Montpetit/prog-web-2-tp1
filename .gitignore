@@ -1,5 +1,8 @@
 *.swp
-.vagrant/
+.vagrant
 .DS_Store
 __pycache__
 log.txt
+.vscode/*
+__pycache__
+__pycache__/*

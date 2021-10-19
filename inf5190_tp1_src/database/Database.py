@@ -4,6 +4,7 @@ import sqlite3
 class Database:
     def __init__(self):
         self.connection = None
+
     # Return cursor as a dict
 
     def to_dict(self, dict_name, cursor):
@@ -12,8 +13,8 @@ class Database:
     def get_connection(self):
         """Open database connection. Should be closed after use"""
         if self.connection is None:
-            self.connection = sqlite3.connect(
-                'inf5190_tp1_src/database/database.db')
+            self.connection = sqlite3.\
+                connect("inf5190_tp1_src/database/database.db")
             self.connection.row_factory = sqlite3.Row
         return self.connection
 
@@ -23,12 +24,14 @@ class Database:
             self.connection.close()
             self.connection = None
 
-    def get_five_last_articles(self, today):
+    def get_five_last_articles(self, today_date):
         connection = self.get_connection()
         cursor = connection.cursor()
 
         cursor.execute(
-            "SELECT * FROM article WHERE date_publication <=  ? limit 5", (today,))
+            "SELECT * FROM article WHERE date_publication <= \
+                ? LIMIT 5", (today_date,)
+        )
         return self.to_dict("article", cursor)
 
     def get_all_articles(self):
@@ -42,32 +45,48 @@ class Database:
         connection = self.get_connection()
         cursor = connection.cursor()
 
-        cursor.execute("INSERT INTO article (titre, identifiant, auteur, date_publication, paragraphe) VALUES (?, ?, ?, ?, ?)", [
-                       article[0], article[1], article[2], article[3], article[4]])
+        cursor.execute(
+            "INSERT INTO article (titre, identifiant, auteur,\
+                date_publication, paragraphe) VALUES (?, ?, ?, ?, ?)",
+            [article[0], article[1], article[2], article[3], article[4]],
+        )
         connection.commit()
         return 1
 
     def modify_article(self, article):
+        # FIXME something is wrong
         connection = self.get_connection()
         cursor = connection.cursor()
 
-        cursor.execute("UPDATE article SET titre=(?), paragraphe=(?) WHERE identifiant=(?)", [
-                       article[0]['titre'], article[0]['paragraphe'], article[0]['identifiant']])
+        cursor.execute(
+            "UPDATE article SET titre=(?), paragraphe=(?)\
+                WHERE identifiant=(?)",
+            [article[0]["titre"], article[0]
+                ["paragraphe"], article[0]["identifiant"]],
+        )
         connection.commit()
         return 1
 
-
     def get_article_by_identifiant(self, identifiant):
-        connection= self.get_connection()
-        cursor= connection.cursor()
+        connection = self.get_connection()
+        cursor = connection.cursor()
 
         cursor.execute(
             "SELECT * FROM article WHERE identifiant = ?", (identifiant,))
         return self.to_dict("article", cursor)
 
+    def get_search_articles(self, search):
+        connection = self.get_connection()
+        cursor = connection.cursor()
+
+        cursor.execute("SELECT * FROM article WHERE titre LIKE ? OR\
+            paragraphe LIKE ? ORDER BY date_publication DESC",
+                       ('%'+search+'%', '%'+search+'%'))
+        return self.to_dict("article", cursor)
 # TODO
-    # methode qui permet d'effectuer une recherche dans la bd pour recuperer les
-    # 5 derniers articles en date du jour
-    # Indices :
-    # date_aj = date.today()
-    # cursor.execute("select * from article where date_publication <= ? limit 5", (date_aj,))
+# methode qui permet d'effectuer une recherche dans la bd pour recuperer les
+# 5 derniers articles en date du jour
+# Indices :
+# date_aj = date.today()
+# cursor.execute("select * from article where "
+# "date_publication <= ? limit 5", (date_aj,))

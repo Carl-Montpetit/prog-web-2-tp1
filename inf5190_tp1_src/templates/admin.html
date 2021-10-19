@@ -10,11 +10,13 @@
     <div id="msg-admin" class="container border border-dark text-center rounded">
       Voici la liste de tous les articles disponibles!
     </div>
+
     {%if msg%}
     <div id="msg-modified" class="container border border-dark text-center rounded">
       {{msg}}
     </div>
     {%endif%}
+
     <a id="btn-create" href="/admin-nouveau" class="btn border border-dark text-center mb-3 p-3">
       ➕Créer un nouvel article
     </a>
@@ -49,6 +51,7 @@
         </td>
       </tr>
       {% endfor %}
+      
     </tbody>
   </table>
 </div>
