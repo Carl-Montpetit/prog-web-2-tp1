@@ -36,8 +36,9 @@ ERR_MSG_AUTEUR = (
 ERR_MSG_DATE = ("⚠️Le champs Date doit impérativement être de la forme"
                 " ⟹ (YYYY-mm-jj) avec des nombres!..")
 ERR_MSG_PARAGRAPHE = (
-    "⚠️Le champs Auteur doit impérativement"
-    " contenir entre 1 et 500 caractères!.."
+    "⚠️Le champs Paragraphe doit impérativement"
+    " contenir entre 1 et 500 caractères et \
+        ne doit pas contenir de saut de ligne!.."
 )
 ERR_MSG_ID_NOT_UNIQUE = (
     "⚠️Le ID choisis existe déjà, svp veuillez en choisir un autre!.."
@@ -54,7 +55,6 @@ today_date = datetime.now().strftime("%Y-%m-%d")
 
 
 def get_db():
-    # [x]
     db = getattr(g, "_database", None)
     if db is None:
         g._database = Database()
@@ -62,7 +62,6 @@ def get_db():
 
 
 @app.teardown_appcontext
-# [x]
 def close_connection(exception):
     db = getattr(g, "_database", None)
     if db is not None:
@@ -70,20 +69,17 @@ def close_connection(exception):
 
 
 @app.errorhandler(404)
-# [x]
 def page_not_found(error):
     return render_template(ERR_404_PAGE), 404
 
 
 @app.route("/", methods=["GET"])
-# [x]
 def get_last_five_articles():
     articles = get_db().get_five_last_articles(today_date)
     return render_template(HOME_PAGE, articles=articles)
 
 
 @app.route('/', methods=['POST'])
-# [x]
 def search_articles():
     search = request.form['search']
     articles = get_db().get_search_articles(search)
@@ -91,7 +87,6 @@ def search_articles():
 
 
 @app.route("/article/<string:identifiant>", methods=["GET"])
-# [x]
 def get_an_article(identifiant):
     try:
         article = get_db().get_article_by_identifiant(identifiant)
@@ -113,7 +108,6 @@ def get_an_article(identifiant):
 
 
 @app.route("/admin/<string:identifiant>", methods=["GET"])
-# [x]
 def get_an_article_modify(identifiant):
     try:
         article = get_db().get_article_by_identifiant(identifiant)
@@ -135,38 +129,69 @@ def get_an_article_modify(identifiant):
 
 
 @app.route("/admin/<string:identifiant>", methods=["POST"])
-# []
 def modify_article(identifiant):
-    try:
-        article = get_db().get_article_by_identifiant(identifiant)
-    except Exception:
-        return render_template(ERR_404_PAGE), 404
-    get_db().modify_article(article)
-    return redirect(ADMIN_PAGE, msg=INFO_MSG_MODIFIED)
+    titre = request.form["titre"]
+    paragraphe = request.form["paragraphe"]
+    if (
+        titre == ""
+        or identifiant == ""
+        or paragraphe == ""
+    ):
+        err = ERR_MSG_EMPTY_FIELDS
+        return render_template(
+            MODIFY_ARTICLE_PAGE,
+            err_empty=ERR_MSG_EMPTY_FIELDS,
+            titre=titre,
+            identifiant=identifiant,
+            paragraphe=paragraphe,
+            err=err
+        )
+    elif len(titre) < 3 or len(titre) > 100:
+        err = ERR_MSG_TITRE
+        return render_template(
+            MODIFY_ARTICLE_PAGE,
+            err_titre=ERR_MSG_TITRE,
+            err=err,
+            titre=titre,
+            identifiant=identifiant,
+            paragraphe=paragraphe
+        )
+    elif len(paragraphe) < 1 or len(paragraphe) > 500 or\
+            "\n" in paragraphe or "\r" in paragraphe:
+        err = ERR_MSG_PARAGRAPHE
+        return render_template(
+            MODIFY_ARTICLE_PAGE,
+            err_paragraphe=ERR_MSG_PARAGRAPHE,
+            err=err,
+            titre=titre,
+            identifiant=identifiant,
+            paragraphe=paragraphe)
+    else:
+        get_db().modify_article(titre, identifiant, paragraphe)
+        return redirect(url_for(
+            'get_admin_validation_added',
+            msg=INFO_MSG_MODIFIED
+        ))
 
 
 @app.route("/admin<string:msg>", methods=["GET"])
-# [x]
 def get_admin_validation_added(msg):
     articles = get_db().get_all_articles()
     return render_template(ADMIN_PAGE, articles=articles, msg=msg)
 
 
 @app.route("/admin", methods=["GET"])
-# [x]
 def get_admin():
     articles = get_db().get_all_articles()
     return render_template(ADMIN_PAGE, articles=articles)
 
 
 @app.route("/admin-nouveau", methods=["GET"])
-# [x]
 def get_admin_new():
     return render_template(ADMIN_NEW_ARTICLE_PAGE)
 
 
 @app.route("/admin-nouveau", methods=["POST"])
-# [x]
 def add_new_article_in_bd():
     titre = request.form["titre"]
     identifiant = request.form["identifiant"]
@@ -240,11 +265,14 @@ def add_new_article_in_bd():
             auteur=auteur,
             date_publication=date_publication,
             paragraphe=paragraphe)
-    elif len(paragraphe) < 1 or len(paragraphe) > 500:
+    elif len(paragraphe) < 1 or len(paragraphe) > 500 or\
+            "\n" in paragraphe or "\r" in paragraphe:
         err = ERR_MSG_PARAGRAPHE
         return render_template(
             ADMIN_NEW_ARTICLE_PAGE,
-            err_paragraphe=ERR_MSG_PARAGRAPHE, err=err, titre=titre,
+            err_paragraphe=ERR_MSG_PARAGRAPHE,
+            err=err,
+            titre=titre,
             identifiant=identifiant,
             auteur=auteur,
             date_publication=date_publication,

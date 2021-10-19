@@ -30,7 +30,7 @@ class Database:
 
         cursor.execute(
             "SELECT * FROM article WHERE date_publication <= \
-                ? LIMIT 5", (today_date,)
+                ? ORDER BY date_publication DESC LIMIT 5", (today_date,)
         )
         return self.to_dict("article", cursor)
 
@@ -53,16 +53,13 @@ class Database:
         connection.commit()
         return 1
 
-    def modify_article(self, article):
-        # FIXME something is wrong
+    def modify_article(self, titre, identifiant, paragraphe):
         connection = self.get_connection()
         cursor = connection.cursor()
-
         cursor.execute(
-            "UPDATE article SET titre=(?), paragraphe=(?)\
-                WHERE identifiant=(?)",
-            [article[0]["titre"], article[0]
-                ["paragraphe"], article[0]["identifiant"]],
+            "UPDATE article SET titre = ?, \
+                paragraphe = ? WHERE identifiant = ?",
+            (titre, paragraphe, identifiant)
         )
         connection.commit()
         return 1
@@ -83,10 +80,3 @@ class Database:
             paragraphe LIKE ? ORDER BY date_publication DESC",
                        ('%'+search+'%', '%'+search+'%'))
         return self.to_dict("article", cursor)
-# TODO
-# methode qui permet d'effectuer une recherche dans la bd pour recuperer les
-# 5 derniers articles en date du jour
-# Indices :
-# date_aj = date.today()
-# cursor.execute("select * from article where "
-# "date_publication <= ? limit 5", (date_aj,))

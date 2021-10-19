@@ -66,15 +66,6 @@
         "documentation": {}
     },
     {
-        "label": "Article",
-        "kind": 6,
-        "importPath": "inf5190_tp1_src.article.Article",
-        "description": "inf5190_tp1_src.article.Article",
-        "peekOfCode": "class Article:\n    def __init__(self, titre, identifiant, auteur, date_publication, paragraphe):\n        self.titre = titre\n        self.identifiant = identifiant\n        self.auteur = auteur\n        self.date_publication = date_publication\n        self.paragraphe = paragraphe\n    def to_dictionnary(self):\n        \"\"\"[map everything as a dictionnary]\"\"\"\n        return {",
-        "detail": "inf5190_tp1_src.article.Article",
-        "documentation": {}
-    },
-    {
         "label": "Database",
         "kind": 6,
         "importPath": "inf5190_tp1_src.database.Database",
@@ -88,7 +79,7 @@
         "kind": 2,
         "importPath": "inf5190_tp1_src.app",
         "description": "inf5190_tp1_src.app",
-        "peekOfCode": "def get_db():\n    # [x]\n    db = getattr(g, \"_database\", None)\n    if db is None:\n        g._database = Database()\n    return g._database\n@app.teardown_appcontext\n# [x]\ndef close_connection(exception):\n    db = getattr(g, \"_database\", None)",
+        "peekOfCode": "def get_db():\n    db = getattr(g, \"_database\", None)\n    if db is None:\n        g._database = Database()\n    return g._database\n@app.teardown_appcontext\ndef close_connection(exception):\n    db = getattr(g, \"_database\", None)\n    if db is not None:\n        db.disconnect()",
         "detail": "inf5190_tp1_src.app",
         "documentation": {}
     },
@@ -97,7 +88,7 @@
         "kind": 2,
         "importPath": "inf5190_tp1_src.app",
         "description": "inf5190_tp1_src.app",
-        "peekOfCode": "def close_connection(exception):\n    db = getattr(g, \"_database\", None)\n    if db is not None:\n        db.disconnect()\n@app.errorhandler(404)\n# [x]\ndef page_not_found(error):\n    return render_template(ERR_404_PAGE), 404\n@app.route(\"/\", methods=[\"GET\"])\n# [x]",
+        "peekOfCode": "def close_connection(exception):\n    db = getattr(g, \"_database\", None)\n    if db is not None:\n        db.disconnect()\n@app.errorhandler(404)\ndef page_not_found(error):\n    return render_template(ERR_404_PAGE), 404\n@app.route(\"/\", methods=[\"GET\"])\ndef get_last_five_articles():\n    articles = get_db().get_five_last_articles(today_date)",
         "detail": "inf5190_tp1_src.app",
         "documentation": {}
     },
@@ -106,7 +97,7 @@
         "kind": 2,
         "importPath": "inf5190_tp1_src.app",
         "description": "inf5190_tp1_src.app",
-        "peekOfCode": "def page_not_found(error):\n    return render_template(ERR_404_PAGE), 404\n@app.route(\"/\", methods=[\"GET\"])\n# [x]\ndef get_last_five_articles():\n    articles = get_db().get_five_last_articles(today_date)\n    return render_template(HOME_PAGE, articles=articles)\n@app.route('/', methods=['POST'])\n# [x]\ndef search_articles():",
+        "peekOfCode": "def page_not_found(error):\n    return render_template(ERR_404_PAGE), 404\n@app.route(\"/\", methods=[\"GET\"])\ndef get_last_five_articles():\n    articles = get_db().get_five_last_articles(today_date)\n    return render_template(HOME_PAGE, articles=articles)\n@app.route('/', methods=['POST'])\ndef search_articles():\n    search = request.form['search']\n    articles = get_db().get_search_articles(search)",
         "detail": "inf5190_tp1_src.app",
         "documentation": {}
     },
@@ -115,7 +106,7 @@
         "kind": 2,
         "importPath": "inf5190_tp1_src.app",
         "description": "inf5190_tp1_src.app",
-        "peekOfCode": "def get_last_five_articles():\n    articles = get_db().get_five_last_articles(today_date)\n    return render_template(HOME_PAGE, articles=articles)\n@app.route('/', methods=['POST'])\n# [x]\ndef search_articles():\n    search = request.form['search']\n    articles = get_db().get_search_articles(search)\n    return render_template(HOME_PAGE, articles=articles, search=search)\n@app.route(\"/article/<string:identifiant>\", methods=[\"GET\"])",
+        "peekOfCode": "def get_last_five_articles():\n    articles = get_db().get_five_last_articles(today_date)\n    return render_template(HOME_PAGE, articles=articles)\n@app.route('/', methods=['POST'])\ndef search_articles():\n    search = request.form['search']\n    articles = get_db().get_search_articles(search)\n    return render_template(HOME_PAGE, articles=articles, search=search)\n@app.route(\"/article/<string:identifiant>\", methods=[\"GET\"])\ndef get_an_article(identifiant):",
         "detail": "inf5190_tp1_src.app",
         "documentation": {}
     },
@@ -124,7 +115,7 @@
         "kind": 2,
         "importPath": "inf5190_tp1_src.app",
         "description": "inf5190_tp1_src.app",
-        "peekOfCode": "def search_articles():\n    search = request.form['search']\n    articles = get_db().get_search_articles(search)\n    return render_template(HOME_PAGE, articles=articles, search=search)\n@app.route(\"/article/<string:identifiant>\", methods=[\"GET\"])\n# [x]\ndef get_an_article(identifiant):\n    try:\n        article = get_db().get_article_by_identifiant(identifiant)\n        titre = article[0][\"titre\"]",
+        "peekOfCode": "def search_articles():\n    search = request.form['search']\n    articles = get_db().get_search_articles(search)\n    return render_template(HOME_PAGE, articles=articles, search=search)\n@app.route(\"/article/<string:identifiant>\", methods=[\"GET\"])\ndef get_an_article(identifiant):\n    try:\n        article = get_db().get_article_by_identifiant(identifiant)\n        titre = article[0][\"titre\"]\n        identifiant = article[0][\"identifiant\"]",
         "detail": "inf5190_tp1_src.app",
         "documentation": {}
     },
@@ -151,7 +142,7 @@
         "kind": 2,
         "importPath": "inf5190_tp1_src.app",
         "description": "inf5190_tp1_src.app",
-        "peekOfCode": "def modify_article(identifiant):\n    try:\n        article = get_db().get_article_by_identifiant(identifiant)\n    except Exception:\n        return render_template(ERR_404_PAGE), 404\n    get_db().modify_article(article)\n    return redirect(ADMIN_PAGE, msg=INFO_MSG_MODIFIED)\n@app.route(\"/admin<string:msg>\", methods=[\"GET\"])\n# [x]\ndef get_admin_validation_added(msg):",
+        "peekOfCode": "def modify_article(identifiant):\n    titre = request.form[\"titre\"]\n    paragraphe = request.form[\"paragraphe\"]\n    if (\n        titre == \"\"\n        or identifiant == \"\"\n        or paragraphe == \"\"\n    ):\n        err = ERR_MSG_EMPTY_FIELDS\n        return render_template(",
         "detail": "inf5190_tp1_src.app",
         "documentation": {}
     },
@@ -160,7 +151,7 @@
         "kind": 2,
         "importPath": "inf5190_tp1_src.app",
         "description": "inf5190_tp1_src.app",
-        "peekOfCode": "def get_admin_validation_added(msg):\n    articles = get_db().get_all_articles()\n    return render_template(ADMIN_PAGE, articles=articles, msg=msg)\n@app.route(\"/admin\", methods=[\"GET\"])\n# [x]\ndef get_admin():\n    articles = get_db().get_all_articles()\n    return render_template(ADMIN_PAGE, articles=articles)\n@app.route(\"/admin-nouveau\", methods=[\"GET\"])\n# [x]",
+        "peekOfCode": "def get_admin_validation_added(msg):\n    articles = get_db().get_all_articles()\n    return render_template(ADMIN_PAGE, articles=articles, msg=msg)\n@app.route(\"/admin\", methods=[\"GET\"])\ndef get_admin():\n    articles = get_db().get_all_articles()\n    return render_template(ADMIN_PAGE, articles=articles)\n@app.route(\"/admin-nouveau\", methods=[\"GET\"])\ndef get_admin_new():\n    return render_template(ADMIN_NEW_ARTICLE_PAGE)",
         "detail": "inf5190_tp1_src.app",
         "documentation": {}
     },
@@ -169,7 +160,7 @@
         "kind": 2,
         "importPath": "inf5190_tp1_src.app",
         "description": "inf5190_tp1_src.app",
-        "peekOfCode": "def get_admin():\n    articles = get_db().get_all_articles()\n    return render_template(ADMIN_PAGE, articles=articles)\n@app.route(\"/admin-nouveau\", methods=[\"GET\"])\n# [x]\ndef get_admin_new():\n    return render_template(ADMIN_NEW_ARTICLE_PAGE)\n@app.route(\"/admin-nouveau\", methods=[\"POST\"])\n# [x]\ndef add_new_article_in_bd():",
+        "peekOfCode": "def get_admin():\n    articles = get_db().get_all_articles()\n    return render_template(ADMIN_PAGE, articles=articles)\n@app.route(\"/admin-nouveau\", methods=[\"GET\"])\ndef get_admin_new():\n    return render_template(ADMIN_NEW_ARTICLE_PAGE)\n@app.route(\"/admin-nouveau\", methods=[\"POST\"])\ndef add_new_article_in_bd():\n    titre = request.form[\"titre\"]\n    identifiant = request.form[\"identifiant\"]",
         "detail": "inf5190_tp1_src.app",
         "documentation": {}
     },
@@ -178,7 +169,7 @@
         "kind": 2,
         "importPath": "inf5190_tp1_src.app",
         "description": "inf5190_tp1_src.app",
-        "peekOfCode": "def get_admin_new():\n    return render_template(ADMIN_NEW_ARTICLE_PAGE)\n@app.route(\"/admin-nouveau\", methods=[\"POST\"])\n# [x]\ndef add_new_article_in_bd():\n    titre = request.form[\"titre\"]\n    identifiant = request.form[\"identifiant\"]\n    auteur = request.form[\"auteur\"]\n    date_publication = request.form[\"date_publication\"]\n    date_validation = re.match(PATTERN_DATE, date_publication)",
+        "peekOfCode": "def get_admin_new():\n    return render_template(ADMIN_NEW_ARTICLE_PAGE)\n@app.route(\"/admin-nouveau\", methods=[\"POST\"])\ndef add_new_article_in_bd():\n    titre = request.form[\"titre\"]\n    identifiant = request.form[\"identifiant\"]\n    auteur = request.form[\"auteur\"]\n    date_publication = request.form[\"date_publication\"]\n    date_validation = re.match(PATTERN_DATE, date_publication)\n    paragraphe = request.form[\"paragraphe\"]",
         "detail": "inf5190_tp1_src.app",
         "documentation": {}
     },
@@ -322,7 +313,7 @@
         "kind": 5,
         "importPath": "inf5190_tp1_src.app",
         "description": "inf5190_tp1_src.app",
-        "peekOfCode": "ERR_MSG_AUTEUR = (\n    \"⚠️Le champs Auteur doit impérativement contenir entre\"\n    \" 4 et 100 caractères!..\"\n)\nERR_MSG_DATE = (\"⚠️Le champs Date doit impérativement être de la forme\"\n                \" ⟹ (YYYY-mm-jj) avec des nombres!..\")\nERR_MSG_PARAGRAPHE = (\n    \"⚠️Le champs Auteur doit impérativement\"\n    \" contenir entre 1 et 500 caractères!..\"\n)",
+        "peekOfCode": "ERR_MSG_AUTEUR = (\n    \"⚠️Le champs Auteur doit impérativement contenir entre\"\n    \" 4 et 100 caractères!..\"\n)\nERR_MSG_DATE = (\"⚠️Le champs Date doit impérativement être de la forme\"\n                \" ⟹ (YYYY-mm-jj) avec des nombres!..\")\nERR_MSG_PARAGRAPHE = (\n    \"⚠️Le champs Paragraphe doit impérativement\"\n    \" contenir entre 1 et 500 caractères et \\\n        ne doit pas contenir de saut de ligne!..\"",
         "detail": "inf5190_tp1_src.app",
         "documentation": {}
     },
@@ -331,7 +322,7 @@
         "kind": 5,
         "importPath": "inf5190_tp1_src.app",
         "description": "inf5190_tp1_src.app",
-        "peekOfCode": "ERR_MSG_DATE = (\"⚠️Le champs Date doit impérativement être de la forme\"\n                \" ⟹ (YYYY-mm-jj) avec des nombres!..\")\nERR_MSG_PARAGRAPHE = (\n    \"⚠️Le champs Auteur doit impérativement\"\n    \" contenir entre 1 et 500 caractères!..\"\n)\nERR_MSG_ID_NOT_UNIQUE = (\n    \"⚠️Le ID choisis existe déjà, svp veuillez en choisir un autre!..\"\n)\nINFO_MSG_CREATED = \"✅Merci, votre article a été ajouté avec succès!..\"",
+        "peekOfCode": "ERR_MSG_DATE = (\"⚠️Le champs Date doit impérativement être de la forme\"\n                \" ⟹ (YYYY-mm-jj) avec des nombres!..\")\nERR_MSG_PARAGRAPHE = (\n    \"⚠️Le champs Paragraphe doit impérativement\"\n    \" contenir entre 1 et 500 caractères et \\\n        ne doit pas contenir de saut de ligne!..\"\n)\nERR_MSG_ID_NOT_UNIQUE = (\n    \"⚠️Le ID choisis existe déjà, svp veuillez en choisir un autre!..\"\n)",
         "detail": "inf5190_tp1_src.app",
         "documentation": {}
     },
@@ -340,7 +331,7 @@
         "kind": 5,
         "importPath": "inf5190_tp1_src.app",
         "description": "inf5190_tp1_src.app",
-        "peekOfCode": "ERR_MSG_PARAGRAPHE = (\n    \"⚠️Le champs Auteur doit impérativement\"\n    \" contenir entre 1 et 500 caractères!..\"\n)\nERR_MSG_ID_NOT_UNIQUE = (\n    \"⚠️Le ID choisis existe déjà, svp veuillez en choisir un autre!..\"\n)\nINFO_MSG_CREATED = \"✅Merci, votre article a été ajouté avec succès!..\"\nINFO_MSG_MODIFIED = \"✅Merci, votre article a été modifié avec succès!..\"\n# source ⟹ https://regexland.com/regex-dates/",
+        "peekOfCode": "ERR_MSG_PARAGRAPHE = (\n    \"⚠️Le champs Paragraphe doit impérativement\"\n    \" contenir entre 1 et 500 caractères et \\\n        ne doit pas contenir de saut de ligne!..\"\n)\nERR_MSG_ID_NOT_UNIQUE = (\n    \"⚠️Le ID choisis existe déjà, svp veuillez en choisir un autre!..\"\n)\nINFO_MSG_CREATED = \"✅Merci, votre article a été ajouté avec succès!..\"\nINFO_MSG_MODIFIED = \"✅Merci, votre article a été modifié avec succès!..\"",
         "detail": "inf5190_tp1_src.app",
         "documentation": {}
     },
@@ -358,7 +349,7 @@
         "kind": 5,
         "importPath": "inf5190_tp1_src.app",
         "description": "inf5190_tp1_src.app",
-        "peekOfCode": "INFO_MSG_CREATED = \"✅Merci, votre article a été ajouté avec succès!..\"\nINFO_MSG_MODIFIED = \"✅Merci, votre article a été modifié avec succès!..\"\n# source ⟹ https://regexland.com/regex-dates/\nPATTERN_DATE = (r\"^\\d{4}-(02-(0[1-9]|[12][0-9])|(0[469]|11)-(0[1-9]|\"\n                r\"[12][0-9]|30)|(0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))$\")\n# DATETIME UTILS\ntoday_date = datetime.now().strftime(\"%Y-%m-%d\")\ndef get_db():\n    # [x]\n    db = getattr(g, \"_database\", None)",
+        "peekOfCode": "INFO_MSG_CREATED = \"✅Merci, votre article a été ajouté avec succès!..\"\nINFO_MSG_MODIFIED = \"✅Merci, votre article a été modifié avec succès!..\"\n# source ⟹ https://regexland.com/regex-dates/\nPATTERN_DATE = (r\"^\\d{4}-(02-(0[1-9]|[12][0-9])|(0[469]|11)-(0[1-9]|\"\n                r\"[12][0-9]|30)|(0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))$\")\n# DATETIME UTILS\ntoday_date = datetime.now().strftime(\"%Y-%m-%d\")\ndef get_db():\n    db = getattr(g, \"_database\", None)\n    if db is None:",
         "detail": "inf5190_tp1_src.app",
         "documentation": {}
     },
@@ -367,7 +358,7 @@
         "kind": 5,
         "importPath": "inf5190_tp1_src.app",
         "description": "inf5190_tp1_src.app",
-        "peekOfCode": "INFO_MSG_MODIFIED = \"✅Merci, votre article a été modifié avec succès!..\"\n# source ⟹ https://regexland.com/regex-dates/\nPATTERN_DATE = (r\"^\\d{4}-(02-(0[1-9]|[12][0-9])|(0[469]|11)-(0[1-9]|\"\n                r\"[12][0-9]|30)|(0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))$\")\n# DATETIME UTILS\ntoday_date = datetime.now().strftime(\"%Y-%m-%d\")\ndef get_db():\n    # [x]\n    db = getattr(g, \"_database\", None)\n    if db is None:",
+        "peekOfCode": "INFO_MSG_MODIFIED = \"✅Merci, votre article a été modifié avec succès!..\"\n# source ⟹ https://regexland.com/regex-dates/\nPATTERN_DATE = (r\"^\\d{4}-(02-(0[1-9]|[12][0-9])|(0[469]|11)-(0[1-9]|\"\n                r\"[12][0-9]|30)|(0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))$\")\n# DATETIME UTILS\ntoday_date = datetime.now().strftime(\"%Y-%m-%d\")\ndef get_db():\n    db = getattr(g, \"_database\", None)\n    if db is None:\n        g._database = Database()",
         "detail": "inf5190_tp1_src.app",
         "documentation": {}
     },
@@ -376,7 +367,7 @@
         "kind": 5,
         "importPath": "inf5190_tp1_src.app",
         "description": "inf5190_tp1_src.app",
-        "peekOfCode": "PATTERN_DATE = (r\"^\\d{4}-(02-(0[1-9]|[12][0-9])|(0[469]|11)-(0[1-9]|\"\n                r\"[12][0-9]|30)|(0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))$\")\n# DATETIME UTILS\ntoday_date = datetime.now().strftime(\"%Y-%m-%d\")\ndef get_db():\n    # [x]\n    db = getattr(g, \"_database\", None)\n    if db is None:\n        g._database = Database()\n    return g._database",
+        "peekOfCode": "PATTERN_DATE = (r\"^\\d{4}-(02-(0[1-9]|[12][0-9])|(0[469]|11)-(0[1-9]|\"\n                r\"[12][0-9]|30)|(0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))$\")\n# DATETIME UTILS\ntoday_date = datetime.now().strftime(\"%Y-%m-%d\")\ndef get_db():\n    db = getattr(g, \"_database\", None)\n    if db is None:\n        g._database = Database()\n    return g._database\n@app.teardown_appcontext",
         "detail": "inf5190_tp1_src.app",
         "documentation": {}
     },
@@ -385,7 +376,7 @@
         "kind": 5,
         "importPath": "inf5190_tp1_src.app",
         "description": "inf5190_tp1_src.app",
-        "peekOfCode": "today_date = datetime.now().strftime(\"%Y-%m-%d\")\ndef get_db():\n    # [x]\n    db = getattr(g, \"_database\", None)\n    if db is None:\n        g._database = Database()\n    return g._database\n@app.teardown_appcontext\n# [x]\ndef close_connection(exception):",
+        "peekOfCode": "today_date = datetime.now().strftime(\"%Y-%m-%d\")\ndef get_db():\n    db = getattr(g, \"_database\", None)\n    if db is None:\n        g._database = Database()\n    return g._database\n@app.teardown_appcontext\ndef close_connection(exception):\n    db = getattr(g, \"_database\", None)\n    if db is not None:",
         "detail": "inf5190_tp1_src.app",
         "documentation": {}
     }

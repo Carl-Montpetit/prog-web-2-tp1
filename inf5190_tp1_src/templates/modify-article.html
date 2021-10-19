@@ -6,6 +6,9 @@
       Modification de l'article 👉 <u><strong>{{titre}}</strong></u>
     </h1>
   </div>
+  {%if err%}
+   <div class="container alert-danger border border-dark rounded text-center w-25 h-auto">{{err}}</div>
+   {%endif%}
   <div class="row w-auto h-auto m-xlg-4 p-xl-4 justify-content-center">
     <div id="article-create" class="col-2 w-auto h-auto m-4 px-lg-4 text-center">
       <p
@@ -40,7 +43,7 @@
             name="titre"
             placeholder="Entrez le nouveau titre"
           />
-          {%if error and titre%}
+          {%if err and err_titre%}
           <div class="alert-danger small text-center rounded-pill mt-1">
             ⚠️Svp, veuillez entrer un <strong>titre</strong> <u>valide</u>!..
           </div>
@@ -55,7 +58,7 @@
               name="paragraphe"
               placeholder="Entrez le nouveau paragraphe ici"
             ></textarea>
-            {%if error and paragraphe%}
+            {%if err and paragraphe%}
             <div class="alert-danger small text-center rounded-pill mt-1">
               ⚠️Svp, veuillez entrer un <strong>paragraphe</strong> pour l'article <u>valide</u>!..
             </div> 
@@ -74,13 +77,14 @@
             name="reset-article"
             value="Réinitialiser"
           />
-          <input
-            class="col-md-12 mx-1 form-control btn btn-dark border border-dark w-auto text-light mt-3 ml-2"
+          <a
+            class="container col-md-12 mx-1 form-control btn btn-light border border-dark w-auto text-dark mt-3 ml-2 bg-danger"
             type="reset"
+            href="/admin"
             id="reset-article"
             name="reset-article"
             value="Canceller"
-          />
+          >Canceller</a>
           </div>
         </form>
       </div>
