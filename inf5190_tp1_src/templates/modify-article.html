@@ -1,16 +1,15 @@
 {% extends "default.html" %} {% block content %}
 <div id="body-admin-new">
-  <br />
-  <div class="row justify-content-center p-1">
-    <h1 class="display-3 text-light border border-dark bg-primary text-center rounded-pill w-auto h-auto m-1 p-2 font-weight-bolder">
-      Modification de l'article 👉 <u><strong>{{titre}}</strong></u>
+  <div class="row justify-content-center pt-4">
+    <h1 class="display-4 text-light border border-dark bg-primary text-center rounded-pill w-50 h-auto m-1 p-2 font-weight-bolder">
+      Modification de l'article <u><strong>{{titre}}</strong></u>
     </h1>
   </div>
   {%if err%}
    <div class="container alert-danger border border-dark rounded text-center w-25 h-auto">{{err}}</div>
    {%endif%}
-  <div class="row w-auto h-auto m-xlg-4 p-xl-4 justify-content-center">
-    <div id="article-create" class="col-2 w-auto h-auto m-4 px-lg-4 text-center">
+  <div class="row w-auto h-auto justify-content-center">
+    <div id="article-modify" class="col-3  m-4 px-lg-4 text-center">
       <p
         id="article"
         class="
@@ -24,7 +23,7 @@
           font-weight-bolder
           border-dark
           rounded-pill
-          w-75
+          w-auto
           h-auto
           p-2
           row
@@ -48,7 +47,7 @@
             ⚠️Svp, veuillez entrer un <strong>titre</strong> <u>valide</u>!..
           </div>
           {%endif%}
-            <label class="font-weight-bold text-center" for="paragraphe">Paragraphe : Actuellement👇</label>
+            <label id="paragraphe-old" class="font-weight-bold text-center" for="paragraphe">Paragraphe : Actuellement👇</label>
             <div id="paragraphe-old-modify" class="container bg-dark text-light w-auto border border-dark m-1"><p>{{paragraphe}}</p></div>
             <textarea
               rows="3"
